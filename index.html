@@ -6,8 +6,6 @@
     <title>Avesta | Premium Footwear & Watches</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
     <script>
         tailwind.config = {
@@ -26,18 +24,7 @@
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #1e2a3b; }
         ::-webkit-scrollbar-thumb { background: #d4af37; border-radius: 4px; }
-        
-        #hero-3d-canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            pointer-events: none;
-        }
 
-        /* Custom Input Styling for Checkout */
         .checkout-input {
             width: 100%;
             background: rgba(255, 255, 255, 0.05);
@@ -52,6 +39,17 @@
             border-color: #d4af37;
             background: rgba(255, 255, 255, 0.1);
             box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+        }
+
+        /* Video Styling for Mobile Fix */
+        .hero-video {
+            object-fit: cover; /* Default for Desktop */
+        }
+        
+        @media (max-width: 768px) {
+            .hero-video {
+                object-fit: contain; /* Fit whole video on mobile without cropping */
+            }
         }
     </style>
 </head>
@@ -75,18 +73,23 @@
         </div>
     </header>
 
-    <section class="relative w-full h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-darker via-dark to-darker">
-        <canvas id="hero-3d-canvas"></canvas>
-        <div class="absolute inset-0 bg-gradient-to-b from-transparent via-dark/20 to-dark z-0"></div>
+    <section class="relative w-full h-screen flex items-center justify-center overflow-hidden bg-darker">
+        
+        <video autoplay loop muted playsinline class="absolute inset-0 w-full h-full z-0 hero-video">
+            <source src="avesta-launch.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+
+        <div class="absolute inset-0 bg-gradient-to-b from-darker/80 via-darker/40 to-dark z-0"></div>
         
         <div class="relative z-10 text-center px-4 mt-16">
-            <h1 class="text-5xl md:text-7xl font-bold mb-4 text-white drop-shadow-[0_5px_5px_rgba(0,0,0,0.5)]">
-                Redefine Your <span class="text-gold drop-shadow-[0_0_15px_rgba(212,175,55,0.6)]">Legacy</span>
+            <h1 class="text-5xl md:text-7xl font-bold mb-4 text-white drop-shadow-[0_5px_15px_rgba(0,0,0,0.9)]">
+                Redefine Your <span class="text-gold drop-shadow-[0_0_20px_rgba(212,175,55,0.8)]">Legacy</span>
             </h1>
-            <p class="text-lg md:text-xl mb-8 max-w-2xl mx-auto text-blue-100 font-light drop-shadow-md">
+            <p class="text-lg md:text-xl mb-8 max-w-2xl mx-auto text-gray-100 font-medium drop-shadow-lg">
                 Step into elegance with our premium leather footwear and timeless watches.
             </p>
-            <a href="#products" class="bg-gold text-dark px-8 py-3 rounded-full font-bold hover:bg-white hover:scale-105 transition-all duration-300 inline-block shadow-[0_0_20px_rgba(212,175,55,0.5)] cursor-pointer pointer-events-auto">
+            <a href="#products" class="bg-gold text-dark px-10 py-4 rounded-full font-bold hover:bg-white hover:scale-105 transition-all duration-300 inline-block shadow-[0_0_25px_rgba(212,175,55,0.6)] cursor-pointer">
                 Explore Collection
             </a>
         </div>
@@ -123,7 +126,6 @@
                 <h4 class="text-gold font-bold text-xl tracking-wide">Contact Us</h4>
                 <button onclick="closeContact()" class="text-gray-400 hover:text-white transition-colors text-3xl leading-none">&times;</button>
             </div>
-            
             <div class="p-8 flex flex-col gap-6 bg-gradient-to-b from-dark to-darker">
                 <div class="flex items-center gap-4 group">
                     <div class="w-12 h-12 rounded-full border border-gold/40 bg-gold/10 flex items-center justify-center shrink-0">
@@ -141,7 +143,7 @@
                     </div>
                     <div>
                         <p class="text-blue-200 text-sm mb-1 uppercase tracking-widest text-[10px] font-semibold">Email Us</p>
-                        <a href="mailto:avesta.online.org@gmail.com" class="text-white font-medium hover:text-gold block text-base tracking-wide">avesta.online.org@gmail.com</a>
+                        <a href="mailto:hanzalahshakir@gmail.com" class="text-white font-medium hover:text-gold block text-base tracking-wide">hanzalahshakir@gmail.com</a>
                     </div>
                 </div>
                 <div class="flex items-center gap-4 group mt-2 border-t border-gold/20 pt-6">
@@ -159,7 +161,6 @@
 
     <div id="checkout-modal" class="fixed inset-0 z-[70] hidden flex-col items-center justify-center p-4 bg-black/70 backdrop-blur-md transition-opacity">
         <div class="bg-darker border border-gold/40 rounded-2xl w-full max-w-md overflow-hidden shadow-[0_0_40px_rgba(0,0,0,0.6)] relative">
-            
             <div class="p-5 border-b border-gold/20 flex justify-between items-center bg-dark">
                 <h4 class="text-gold font-bold text-xl tracking-wide flex items-center gap-2">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
@@ -167,24 +168,19 @@
                 </h4>
                 <button onclick="closeCheckout()" class="text-gray-400 hover:text-white transition-colors text-3xl leading-none">&times;</button>
             </div>
-
             <form id="payment-form" onsubmit="processPayment(event)" class="p-6 flex flex-col gap-4 bg-gradient-to-b from-dark to-darker">
-                
                 <div class="flex justify-between items-center mb-2">
                     <span class="text-blue-200">Amount to Pay:</span>
                     <span id="checkout-amount" class="text-2xl font-bold text-white tracking-wide">₹0</span>
                 </div>
-
                 <div>
                     <label class="block text-blue-200 text-xs uppercase tracking-widest mb-1 font-semibold">Cardholder Name</label>
                     <input type="text" required placeholder="Hanzalah Shakir" class="checkout-input">
                 </div>
-
                 <div>
                     <label class="block text-blue-200 text-xs uppercase tracking-widest mb-1 font-semibold">Card Number</label>
                     <input type="text" required placeholder="XXXX XXXX XXXX XXXX" maxlength="19" class="checkout-input">
                 </div>
-
                 <div class="flex gap-4">
                     <div class="flex-1">
                         <label class="block text-blue-200 text-xs uppercase tracking-widest mb-1 font-semibold">Expiry (MM/YY)</label>
@@ -195,30 +191,19 @@
                         <input type="password" required placeholder="•••" maxlength="3" class="checkout-input">
                     </div>
                 </div>
-
                 <div id="payment-status" class="hidden text-center py-2">
                     <p class="text-gold font-medium animate-pulse">Processing Payment...</p>
                 </div>
-
-                <button id="pay-button" type="submit" class="mt-4 w-full bg-gold text-dark py-3.5 rounded-xl font-bold hover:bg-white hover:shadow-[0_0_20px_rgba(212,175,55,0.4)] transition-all flex justify-center items-center gap-2">
-                    Pay Now
-                </button>
+                <button id="pay-button" type="submit" class="mt-4 w-full bg-gold text-dark py-3.5 rounded-xl font-bold hover:bg-white transition-all">Pay Now</button>
             </form>
         </div>
     </div>
 
     <script>
         const products = [
-            { id: 1, name: 'Classic Oxford Leather', category: 'Shoes', price: 3999, image: 'For Trial.jpg' }, 
-            { id: 2, name: 'Classic Oxford Leather', category: 'Shoes', price: 3999 image: 'For Trial.jpg' },
-            { id: 3, name: 'Classic Oxford Leather', category: 'Shoes', price: 1999, image: 'For Trial.jpg' },
-            { id: 4, name: 'Classic Oxford Leather', category: 'Shoes', price: 1999, image: 'For Trial.jpg' },
-            { id: 5, name: 'Classic Oxford Leather', category: 'Shoes', price: 999, image: 'For Trial.jpg' },
-            { id: 6, name: 'Classic Oxford Leather', category: 'Shoes', price: 1999, image: 'For Trial.jpg' },
-            { id: 7, name: 'Classic Oxford Leather', category: 'Shoes', price: 1999, image: 'For Trial.jpg' },
-            { id: 8, name: 'Classic Oxford Leather', category: 'Shoes', price: 1299, image: 'For Trial.jpg' }, 
-            { id: 9, name: 'Chronograph Gold Edition', category: 'Watches', price: 24999, image: 'https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?q=80&w=1000&auto=format&fit=crop' },
-            { id: 10, name: 'Chelsea Suede Boots', category: 'Shoes', price: 15999, image: 'https://images.unsplash.com/photo-1605812860427-4024433a70fd?q=80&w=1000&auto=format&fit=crop' }
+            { id: 1, name: 'Classic Oxford Leather', category: 'Shoes', price: 12999, image: 'For Trial.jpg' }, 
+            { id: 2, name: 'Chronograph Gold Edition', category: 'Watches', price: 24999, image: 'https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?q=80&w=1000&auto=format&fit=crop' },
+            { id: 3, name: 'Chelsea Suede Boots', category: 'Shoes', price: 15999, image: 'https://images.unsplash.com/photo-1605812860427-4024433a70fd?q=80&w=1000&auto=format&fit=crop' }
         ];
 
         let cart = [];
@@ -226,20 +211,17 @@
         function renderProducts() {
             const grid = document.getElementById('product-grid');
             if(!grid) return;
-            
             grid.innerHTML = products.map(product => `
-                <div class="group rounded-xl bg-darker overflow-hidden border border-gold/20 hover:border-gold/60 transition-all shadow-[0_5px_15px_rgba(0,0,0,0.3)] hover:shadow-[0_10px_25px_rgba(212,175,55,0.2)] hover:-translate-y-2 duration-300">
+                <div class="group rounded-xl bg-darker overflow-hidden border border-gold/20 hover:border-gold/60 transition-all shadow-lg hover:-translate-y-2 duration-300">
                     <div class="aspect-[4/5] bg-dark flex items-center justify-center relative overflow-hidden">
                         <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover opacity-90 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700 ease-in-out">
                         <div class="absolute inset-0 bg-gradient-to-t from-darker via-darker/20 to-transparent opacity-80"></div>
                     </div>
-                    <div class="p-6 relative z-10 bg-darker flex flex-col">
-                        <p class="text-xs text-gold mb-1 tracking-widest uppercase font-bold drop-shadow-sm">${product.category}</p>
+                    <div class="p-6 relative z-10 bg-darker">
+                        <p class="text-xs text-gold mb-1 tracking-widest uppercase font-bold">${product.category}</p>
                         <h3 class="text-lg font-bold text-white mb-2 line-clamp-1">${product.name}</h3>
-                        <p class="text-xl font-bold text-white mb-5 drop-shadow-md">₹${product.price.toLocaleString('en-IN')}</p>
-                        <div class="mt-auto">
-                            <button onclick="addToCart(${product.id})" class="w-full bg-white text-dark py-2.5 rounded-lg font-bold hover:bg-gold transition-colors text-sm shadow-md">Add to Cart</button>
-                        </div>
+                        <p class="text-xl font-bold text-white mb-5">₹${product.price.toLocaleString('en-IN')}</p>
+                        <button onclick="addToCart(${product.id})" class="w-full bg-white text-dark py-2.5 rounded-lg font-bold hover:bg-gold transition-colors text-sm">Add to Cart</button>
                     </div>
                 </div>
             `).join('');
@@ -247,209 +229,71 @@
 
         function addToCart(id) {
             const product = products.find(p => p.id === id);
-            const existingItem = cart.find(item => item.id === id);
-            if (existingItem) existingItem.quantity += 1;
+            const item = cart.find(i => i.id === id);
+            if (item) item.quantity++;
             else cart.push({ ...product, quantity: 1 });
             updateCartUI();
-            
-            const drawer = document.getElementById('cart-drawer');
-            if (drawer && drawer.classList.contains('translate-x-full')) {
-                toggleCart();
-            }
+            if (document.getElementById('cart-drawer').classList.contains('translate-x-full')) toggleCart();
         }
 
         function removeFromCart(id) {
-            cart = cart.filter(item => item.id !== id);
+            cart = cart.filter(i => i.id !== id);
             updateCartUI();
         }
 
         function updateCartUI() {
-            document.getElementById('cart-count').innerText = cart.reduce((sum, item) => sum + item.quantity, 0);
-            const totalAmount = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            
-            const formattedTotal = '₹' + totalAmount.toLocaleString('en-IN');
-            document.getElementById('cart-total').innerText = formattedTotal;
-            // Checkout modal ka amount bhi update karein
-            document.getElementById('checkout-amount').innerText = formattedTotal;
-            
-            const cartItemsContainer = document.getElementById('cart-items');
-            if (cart.length === 0) {
-                cartItemsContainer.innerHTML = '<p class="text-center text-blue-200 mt-10">Your cart is empty.</p>';
-            } else {
-                cartItemsContainer.innerHTML = cart.map(item => `
-                    <div class="flex gap-4 items-center bg-dark p-3 rounded-xl border border-gold/10 shadow-md">
-                        <div class="w-16 h-16 bg-darker rounded-lg flex items-center justify-center shrink-0 overflow-hidden relative border border-gold/20">
-                            <img src="${item.image}" class="w-full h-full object-cover">
-                        </div>
-                        <div class="flex-1">
-                            <h4 class="text-white text-sm font-bold line-clamp-1">${item.name}</h4>
-                            <p class="text-blue-200 text-xs mt-1 font-medium">Qty: ${item.quantity} | ₹${item.price.toLocaleString('en-IN')}</p>
-                        </div>
-                        <button onclick="removeFromCart(${item.id})" class="text-gray-500 hover:text-red-400 transition-colors text-2xl font-bold px-2 leading-none">&times;</button>
+            document.getElementById('cart-count').innerText = cart.reduce((s, i) => s + i.quantity, 0);
+            const total = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
+            document.getElementById('cart-total').innerText = '₹' + total.toLocaleString('en-IN');
+            document.getElementById('checkout-amount').innerText = '₹' + total.toLocaleString('en-IN');
+            const cont = document.getElementById('cart-items');
+            if (cart.length === 0) cont.innerHTML = '<p class="text-center text-blue-200 mt-10">Your cart is empty.</p>';
+            else cont.innerHTML = cart.map(i => `
+                <div class="flex gap-4 items-center bg-dark p-3 rounded-xl border border-gold/10">
+                    <div class="w-16 h-16 bg-darker rounded overflow-hidden border border-gold/20">
+                        <img src="${i.image}" class="w-full h-full object-cover">
                     </div>
-                `).join('');
-            }
+                    <div class="flex-1">
+                        <h4 class="text-white text-sm font-bold line-clamp-1">${i.name}</h4>
+                        <p class="text-blue-200 text-xs mt-1">Qty: ${i.quantity} | ₹${i.price.toLocaleString('en-IN')}</p>
+                    </div>
+                    <button onclick="removeFromCart(${i.id})" class="text-gray-500 hover:text-red-400 text-2xl px-2">&times;</button>
+                </div>`).join('');
         }
 
-        // Drawer and Modals Toggle Functions
         function toggleCart() {
             document.getElementById('cart-drawer').classList.toggle('translate-x-full');
             document.getElementById('cart-overlay').classList.toggle('opacity-0');
             document.getElementById('cart-overlay').classList.toggle('invisible');
         }
 
-        function openContact() {
-            document.getElementById('contact-modal').classList.remove('hidden');
-            document.getElementById('contact-modal').classList.add('flex');
-        }
-
-        function closeContact() {
-            document.getElementById('contact-modal').classList.add('hidden');
-            document.getElementById('contact-modal').classList.remove('flex');
-        }
+        function openContact() { document.getElementById('contact-modal').classList.replace('hidden', 'flex'); }
+        function closeContact() { document.getElementById('contact-modal').classList.replace('flex', 'hidden'); }
 
         function openCheckout() {
-            if(cart.length === 0) {
-                alert("Your cart is empty! Please add some items first.");
-                return;
-            }
-            toggleCart(); // Close cart drawer
-            document.getElementById('checkout-modal').classList.remove('hidden');
-            document.getElementById('checkout-modal').classList.add('flex');
+            if(cart.length === 0) return alert("Cart is empty!");
+            toggleCart();
+            document.getElementById('checkout-modal').classList.replace('hidden', 'flex');
         }
 
         function closeCheckout() {
-            document.getElementById('checkout-modal').classList.add('hidden');
-            document.getElementById('checkout-modal').classList.remove('flex');
-            
-            // Reset form UI for next time
+            document.getElementById('checkout-modal').classList.replace('flex', 'hidden');
             document.getElementById('payment-form').reset();
             document.getElementById('pay-button').classList.remove('hidden');
             document.getElementById('payment-status').classList.add('hidden');
-            document.getElementById('payment-status').innerHTML = '<p class="text-gold font-medium animate-pulse">Processing Payment...</p>';
         }
 
-        // NEW: Payment Processing Simulation
-        function processPayment(event) {
-            event.preventDefault(); // Form ko refresh hone se rokna
-            
-            const payBtn = document.getElementById('pay-button');
-            const statusDiv = document.getElementById('payment-status');
-            
-            // Step 1: Hide button, show loading
-            payBtn.classList.add('hidden');
-            statusDiv.classList.remove('hidden');
-            
-            // Step 2: Fake delay of 2 seconds to make it look real
+        function processPayment(e) {
+            e.preventDefault();
+            document.getElementById('pay-button').classList.add('hidden');
+            document.getElementById('payment-status').classList.remove('hidden');
             setTimeout(() => {
-    // Success UI
-                statusDiv.innerHTML = `
-                    <div class="flex flex-col items-center gap-2">
-                        <svg class="w-12 h-12 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        <p class="text-green-400 font-bold text-lg">Payment Successful!</p>
-                        <p class="text-blue-200 text-sm">Thank you for choosing Avesta.</p>
-                    </div>
-                `;
-                
-                // Step 3: Clear cart and close modal after 2.5 more seconds
-                setTimeout(() => {
-                    cart = []; 
-                    updateCartUI(); 
-                    closeCheckout();
-                }, 2500);
-                
+                document.getElementById('payment-status').innerHTML = '<p class="text-green-400 font-bold">Payment Successful!</p>';
+                setTimeout(() => { cart = []; updateCartUI(); closeCheckout(); }, 2000);
             }, 2000);
         }
 
-        // Initialize the website UI
         renderProducts();
-    </script>
-
-    <script>
-        if (typeof THREE !== 'undefined') {
-            const canvas = document.getElementById('hero-3d-canvas');
-            const scene = new THREE.Scene();
-            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            
-            function adjustCamera() {
-                if (window.innerWidth < 768) {
-                    camera.position.z = 45; 
-                } else {
-                    camera.position.z = 25; 
-                }
-            }
-            adjustCamera(); 
-
-            const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
-            const geometry = new THREE.TorusKnotGeometry(8, 2, 200, 32);
-            const material = new THREE.MeshStandardMaterial({ 
-                color: 0xd4af37, 
-                metalness: 0.8, 
-                roughness: 0.15,
-                wireframe: true 
-            });
-            const luxuryObj = new THREE.Mesh(geometry, material);
-            scene.add(luxuryObj);
-
-            const particlesGeometry = new THREE.BufferGeometry();
-            const particlesCount = 1200; 
-            const posArray = new Float32Array(particlesCount * 3);
-
-            for(let i = 0; i < particlesCount * 3; i++) {
-                posArray[i] = (Math.random() - 0.5) * 80; 
-            }
-
-            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-            const particlesMaterial = new THREE.PointsMaterial({
-                size: 0.18,
-                color: 0xd4af37,
-                transparent: true,
-                opacity: 0.8 
-            });
-            const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
-            scene.add(particlesMesh);
-
-            const ambientLight = new THREE.AmbientLight(0xffffff, 1.5); 
-            scene.add(ambientLight);
-
-            const pointLight = new THREE.PointLight(0xd4af37, 5);
-            pointLight.position.set(15, 15, 15);
-            scene.add(pointLight);
-
-            const frontLight = new THREE.PointLight(0xffffff, 2.5);
-            frontLight.position.set(0, 0, 20);
-            scene.add(frontLight);
-
-            let mouseX = 0;
-            let mouseY = 0;
-            document.addEventListener('mousemove', (event) => {
-                mouseX = (event.clientX / window.innerWidth) - 0.5;
-                mouseY = (event.clientY / window.innerHeight) - 0.5;
-            });
-
-            function animate() {
-                requestAnimationFrame(animate);
-                luxuryObj.rotation.x += 0.002;
-                luxuryObj.rotation.y += 0.005;
-                particlesMesh.rotation.y -= 0.001;
-                
-                luxuryObj.position.x += (mouseX * 5 - luxuryObj.position.x) * 0.05;
-                luxuryObj.position.y += (-mouseY * 5 - luxuryObj.position.y) * 0.05;
-
-                renderer.render(scene, camera);
-            }
-            animate();
-
-            window.addEventListener('resize', () => {
-                camera.aspect = window.innerWidth / window.innerHeight;
-                camera.updateProjectionMatrix();
-                renderer.setSize(window.innerWidth, window.innerHeight);
-                adjustCamera(); 
-            });
-        }
     </script>
 </body>
 </html>
