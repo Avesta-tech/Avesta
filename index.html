@@ -27,8 +27,10 @@
         ::-webkit-scrollbar-track { background: #000000; }
         ::-webkit-scrollbar-thumb { background: #d4af37; border-radius: 4px; }
 
-        .hero-video { object-fit: cover; }
-        @media (max-width: 768px) { .hero-video { object-fit: contain !important; } }
+        /* VIDEO HERO FIX: Ab mobile par bhi edge-to-edge cover karegi */
+        .hero-video { 
+            object-fit: cover !important; 
+        }
 
         .checkout-input {
             width: 100%; background: rgba(255, 255, 255, 0.05);
@@ -184,7 +186,6 @@
     </div>
 
     <script>
-        // Clean direct URLs to prevent adblockers from breaking them
         const products = [
             { 
                 id: 1, name: 'Classic Oxford Leather', category: 'Shoes', price: 12999, 
