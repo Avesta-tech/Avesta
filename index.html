@@ -27,10 +27,7 @@
         ::-webkit-scrollbar-track { background: #000000; }
         ::-webkit-scrollbar-thumb { background: #d4af37; border-radius: 4px; }
 
-        /* VIDEO HERO FIX: Ab mobile par bhi edge-to-edge cover karegi */
-        .hero-video { 
-            object-fit: cover !important; 
-        }
+        .hero-video { object-fit: cover !important; }
 
         .checkout-input {
             width: 100%; background: rgba(255, 255, 255, 0.05);
@@ -186,31 +183,32 @@
     </div>
 
     <script>
+        // YAHAN AAPKO APNI PHOTOS KE EXACT NAAM DAALNE HAIN
         const products = [
             { 
                 id: 1, name: 'Classic Oxford Leather', category: 'Shoes', price: 12999, 
                 images: [
-                    'For Trial.jpg', 
-                    'https://images.unsplash.com/photo-1614252209884-6b22cd2840f9', 
-                    'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a'  
+                    'oxford-1.jpg', // Apna naam yahan daalein
+                    'oxford-2.jpg', // Apna naam yahan daalein
+                    'oxford-3.jpg'  // Apna naam yahan daalein
                 ],
                 description: 'Handcrafted from pure full-grain leather, these classic oxfords redefine elegance. Perfect for formal evenings and boardroom meetings, featuring a comfort-cushion insole and a durable welted sole designed to last a lifetime.'
             }, 
             { 
                 id: 2, name: 'Chronograph Gold Edition', category: 'Watches', price: 24999, 
                 images: [
-                    'https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3',
-                    'https://images.unsplash.com/photo-1524592094714-a5764260ae6f', 
-                    'https://images.unsplash.com/photo-1587836171542-a892b152d0fa'  
+                    'watch-1.jpg', // Apna naam yahan daalein
+                    'watch-2.jpg', // Apna naam yahan daalein
+                    'watch-3.jpg'  // Apna naam yahan daalein
                 ],
                 description: 'A masterpiece of precision horology. This chronograph features a 42mm 18k gold-plated stainless steel case, scratch-resistant sapphire crystal glass, and a highly precise quartz movement. Water-resistant up to 50 meters.'
             },
             { 
                 id: 3, name: 'Chelsea Suede Boots', category: 'Shoes', price: 15999, 
                 images: [
-                    'https://images.unsplash.com/photo-1605812860427-4024433a70fd',
-                    'https://images.unsplash.com/photo-1520639888713-7851133b1ed0', 
-                    'https://images.unsplash.com/photo-1581458039755-9018698e4dff'  
+                    'boot-1.jpg', // Apna naam yahan daalein
+                    'boot-2.jpg', // Apna naam yahan daalein
+                    'boot-3.jpg'  // Apna naam yahan daalein
                 ],
                 description: 'Premium Italian suede meets modern urban style. These Chelsea boots slip on effortlessly with elasticated side panels and feature a stacked leather heel for a sharp, sophisticated profile that pairs perfectly with denim or suits.'
             }
