@@ -37,7 +37,6 @@
         }
         .checkout-input:focus { border-color: #d4af37; background: rgba(255, 255, 255, 0.1); }
         
-        /* Hide scrollbar for thumbnail gallery */
         .scrollbar-hide::-webkit-scrollbar { display: none; }
         .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
@@ -94,7 +93,7 @@
         <div class="bg-darkgray md:border md:border-gold/30 md:rounded-2xl w-full h-full md:h-auto md:max-h-[90vh] md:max-w-6xl overflow-y-auto shadow-[0_0_50px_rgba(212,175,55,0.1)] relative flex flex-col md:flex-row">
             
             <div class="w-full md:w-1/2 bg-black flex flex-col p-4 md:p-8">
-                <div class="w-full h-[40vh] md:h-[50vh] bg-darkgray rounded-xl overflow-hidden mb-4 relative flex items-center justify-center border border-white/5">
+                <div class="w-full h-[50vh] md:h-[65vh] bg-darkgray rounded-xl overflow-hidden mb-3 relative flex items-center justify-center border border-white/5">
                     <img id="detail-main-img" src="" alt="Product" class="w-full h-full object-cover transition-opacity duration-300">
                 </div>
                 
@@ -125,6 +124,7 @@
             </div>
         </div>
     </div>
+
     <div id="cart-overlay" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 opacity-0 invisible transition-all duration-300" onclick="toggleCart()"></div>
     <div id="cart-drawer" class="fixed top-0 right-0 h-full w-full sm:w-[400px] bg-black border-l border-gold/30 z-50 transform translate-x-full transition-transform duration-500 ease-in-out flex flex-col">
         <div class="flex items-center justify-between p-6 border-b border-gold/20 bg-black">
@@ -154,7 +154,10 @@
                 </div>
                 <div class="flex items-center gap-4">
                     <div class="w-12 h-12 rounded-full border border-gold/40 bg-gold/10 flex items-center justify-center"><span class="text-gold text-xl">✉️</span></div>
-                    <div><p class="text-gray-400 text-sm mb-1 uppercase tracking-widest text-[10px] font-semibold">Email Us</p><a href="mailto:hanzalahshakir@gmail.com" class="text-white font-medium text-base hover:text-gold">hanzalahshakir@gmail.com</a></div>
+                    <div>
+                        <p class="text-gray-400 text-sm mb-1 uppercase tracking-widest text-[10px] font-semibold">Email Us</p>
+                        <a href="mailto:avesta.online.org@gmail.com" class="text-white font-medium text-base hover:text-gold">avesta.online.org@gmail.com</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -181,32 +184,31 @@
     </div>
 
     <script>
-        // DATABASE UPDATED: 'image' is now 'images' (an Array of multiple photos)
         const products = [
             { 
                 id: 1, name: 'Classic Oxford Leather', category: 'Shoes', price: 12999, 
                 images: [
                     'For Trial.jpg', 
-                    'https://images.unsplash.com/photo-1614252339460-e1b18c6cc92c?q=80&w=1000&auto=format&fit=crop', // Angle 2
-                    'https://images.unsplash.com/photo-1595341888016-a392ef81b7de?q=80&w=1000&auto=format&fit=crop'  // Angle 3
+                    'https://images.unsplash.com/photo-1614252209884-6b22cd2840f9?auto=format&fit=crop&w=800&q=80', 
+                    'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=800&q=80'  
                 ],
                 description: 'Handcrafted from pure full-grain leather, these classic oxfords redefine elegance. Perfect for formal evenings and boardroom meetings, featuring a comfort-cushion insole and a durable welted sole designed to last a lifetime.'
             }, 
             { 
                 id: 2, name: 'Chronograph Gold Edition', category: 'Watches', price: 24999, 
                 images: [
-                    'https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?q=80&w=1000&auto=format&fit=crop',
-                    'https://images.unsplash.com/photo-1524592094714-a5764260ae6f?q=80&w=1000&auto=format&fit=crop', // Angle 2
-                    'https://images.unsplash.com/photo-1587836171542-a892b152d0fa?q=80&w=1000&auto=format&fit=crop'  // Angle 3
+                    'https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?auto=format&fit=crop&w=800&q=80',
+                    'https://images.unsplash.com/photo-1524592094714-a5764260ae6f?auto=format&fit=crop&w=800&q=80', 
+                    'https://images.unsplash.com/photo-1587836171542-a892b152d0fa?auto=format&fit=crop&w=800&q=80'  
                 ],
                 description: 'A masterpiece of precision horology. This chronograph features a 42mm 18k gold-plated stainless steel case, scratch-resistant sapphire crystal glass, and a highly precise quartz movement. Water-resistant up to 50 meters.'
             },
             { 
                 id: 3, name: 'Chelsea Suede Boots', category: 'Shoes', price: 15999, 
                 images: [
-                    'https://images.unsplash.com/photo-1605812860427-4024433a70fd?q=80&w=1000&auto=format&fit=crop',
-                    'https://images.unsplash.com/photo-1620860265147-79468e21deea?q=80&w=1000&auto=format&fit=crop', // Angle 2
-                    'https://images.unsplash.com/photo-1581458039755-9018698e4dff?q=80&w=1000&auto=format&fit=crop'  // Angle 3
+                    'https://images.unsplash.com/photo-1605812860427-4024433a70fd?auto=format&fit=crop&w=800&q=80',
+                    'https://images.unsplash.com/photo-1520639888713-7851133b1ed0?auto=format&fit=crop&w=800&q=80', 
+                    'https://images.unsplash.com/photo-1581458039755-9018698e4dff?auto=format&fit=crop&w=800&q=80'  
                 ],
                 description: 'Premium Italian suede meets modern urban style. These Chelsea boots slip on effortlessly with elasticated side panels and feature a stacked leather heel for a sharp, sophisticated profile that pairs perfectly with denim or suits.'
             }
@@ -235,23 +237,20 @@
             `).join('');
         }
 
-        // --- GALLERY FUNCTIONS ---
         function openProductDetail(id) {
             const product = products.find(p => p.id === id);
             if(!product) return;
 
-            // 1. Set Main Image to the first image
             document.getElementById('detail-main-img').src = product.images[0];
             
-            // 2. Build the Thumbnails (Choti photos)
+            // 2. THUMBNAILS: Size reduced (w-16 h-16 on mobile, w-20 h-20 on laptop)
             const thumbsContainer = document.getElementById('detail-thumbnails');
             thumbsContainer.innerHTML = product.images.map((imgSrc) => `
-                <button onclick="changeMainImage('${imgSrc}')" class="w-20 h-20 md:w-24 md:h-24 flex-shrink-0 rounded-lg overflow-hidden border-2 border-transparent focus:border-gold hover:border-gold transition-all bg-black">
+                <button onclick="changeMainImage('${imgSrc}')" class="w-16 h-16 md:w-20 md:h-20 flex-shrink-0 rounded-lg overflow-hidden border-2 border-transparent focus:border-gold hover:border-gold transition-all bg-black">
                     <img src="${imgSrc}" class="w-full h-full object-cover opacity-80 hover:opacity-100">
                 </button>
             `).join('');
 
-            // 3. Set Text Info
             document.getElementById('detail-category').innerText = product.category;
             document.getElementById('detail-title').innerText = product.name;
             document.getElementById('detail-price').innerText = '₹' + product.price.toLocaleString('en-IN');
@@ -270,7 +269,6 @@
 
         function changeMainImage(src) {
             const mainImg = document.getElementById('detail-main-img');
-            // Adding a small fade effect when changing images
             mainImg.style.opacity = 0.5;
             setTimeout(() => {
                 mainImg.src = src;
@@ -283,7 +281,6 @@
             document.getElementById('product-detail-modal').classList.remove('flex');
             document.body.style.overflow = 'auto';
         }
-        // -------------------------
 
         function addToCart(id) {
             const product = products.find(p => p.id === id);
@@ -298,9 +295,65 @@
             updateCartUI();
         }
 
-       function updateCartUI() {
+        function updateCartUI() {
             document.getElementById('cart-count').innerText = cart.reduce((s, i) => s + i.quantity, 0);
             const total = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
+            document.getElementById('cart-total').innerText = '₹' + total.toLocaleString('en-IN');
+            document.getElementById('checkout-amount').innerText = '₹' + total.toLocaleString('en-IN');
+            const cont = document.getElementById('cart-items');
+            if (cart.length === 0) cont.innerHTML = '<p class="text-center text-gray-400 mt-10">Your cart is empty.</p>';
+            else cont.innerHTML = cart.map(i => `
+                <div class="flex gap-4 items-center bg-darkgray p-3 rounded-xl border border-gold/10">
+                    <div class="w-16 h-16 bg-black rounded overflow-hidden border border-gold/20">
+                        <img src="${i.images[0]}" class="w-full h-full object-cover">
+                    </div>
+                    <div class="flex-1">
+                        <h4 class="text-white text-sm font-bold line-clamp-1">${i.name}</h4>
+                        <p class="text-gray-400 text-xs mt-1">Qty: ${i.quantity} | ₹${i.price.toLocaleString('en-IN')}</p>
+                    </div>
+                    <button onclick="removeFromCart(${i.id})" class="text-gray-500 hover:text-red-400 transition-colors text-2xl px-2 leading-none">&times;</button>
+                </div>`).join('');
+        }
+
+        function openCartDrawer() {
+            document.getElementById('cart-drawer').classList.remove('translate-x-full');
+            document.getElementById('cart-overlay').classList.remove('opacity-0', 'invisible');
+        }
+        function toggleCart() {
+            document.getElementById('cart-drawer').classList.toggle('translate-x-full');
+            document.getElementById('cart-overlay').classList.toggle('opacity-0');
+            document.getElementById('cart-overlay').classList.toggle('invisible');
+        }
+        function openContact() { document.getElementById('contact-modal').classList.replace('hidden', 'flex'); }
+        function closeContact() { document.getElementById('contact-modal').classList.replace('flex', 'hidden'); }
+        function openCheckout() {
+            if(cart.length === 0) return alert("Cart is empty!");
+            toggleCart();
+            document.getElementById('checkout-modal').classList.replace('hidden', 'flex');
+        }
+        function closeCheckout() {
+            document.getElementById('checkout-modal').classList.replace('flex', 'hidden');
+            document.getElementById('payment-form').reset();
+            document.getElementById('pay-button').classList.remove('hidden');
+            document.getElementById('payment-status').classList.add('hidden');
+        }
+        function processPayment(e) {
+            e.preventDefault();
+            document.getElementById('pay-button').classList.add('hidden');
+            document.getElementById('payment-status').classList.remove('hidden');
+            setTimeout(() => {
+                document.getElementById('payment-status').innerHTML = '<p class="text-green-400 font-bold text-lg">Payment Successful!</p>';
+                setTimeout(() => { cart = []; updateCartUI(); closeCheckout(); }, 2000);
+            }, 2000);
+        }
+
+        renderProducts();
+    </script>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script> AOS.init({ duration: 1000, once: true, easing: 'ease-out' }); </script>
+</body>
+</html> total = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
             document.getElementById('cart-total').innerText = '₹' + total.toLocaleString('en-IN');
             document.getElementById('checkout-amount').innerText = '₹' + total.toLocaleString('en-IN');
             const cont = document.getElementById('cart-items');
