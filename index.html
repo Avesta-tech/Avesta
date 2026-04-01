@@ -36,6 +36,10 @@
             padding: 0.75rem 1rem; border-radius: 0.5rem; outline: none; transition: all 0.3s;
         }
         .checkout-input:focus { border-color: #d4af37; background: rgba(255, 255, 255, 0.1); }
+        
+        /* Hide scrollbar for thumbnail gallery */
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
 <body class="bg-black text-white flex flex-col min-h-screen overflow-x-hidden">
@@ -87,11 +91,15 @@
     <div id="product-detail-modal" class="fixed inset-0 z-[80] hidden items-center justify-center p-0 md:p-6 bg-black/95 backdrop-blur-xl transition-opacity">
         <button onclick="closeProductDetail()" class="absolute top-4 right-4 md:top-8 md:right-8 text-gray-400 hover:text-white transition-colors text-5xl leading-none z-50 drop-shadow-lg">&times;</button>
         
-        <div class="bg-darkgray md:border md:border-gold/30 md:rounded-2xl w-full h-full md:h-auto md:max-h-[90vh] md:max-w-5xl overflow-y-auto shadow-[0_0_50px_rgba(212,175,55,0.1)] relative flex flex-col md:flex-row">
+        <div class="bg-darkgray md:border md:border-gold/30 md:rounded-2xl w-full h-full md:h-auto md:max-h-[90vh] md:max-w-6xl overflow-y-auto shadow-[0_0_50px_rgba(212,175,55,0.1)] relative flex flex-col md:flex-row">
             
-            <div class="w-full md:w-1/2 bg-black min-h-[50vh] md:min-h-full flex items-center justify-center relative">
-                <img id="detail-img" src="" alt="Product" class="w-full h-full object-cover opacity-90">
-                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent md:bg-gradient-to-r"></div>
+            <div class="w-full md:w-1/2 bg-black flex flex-col p-4 md:p-8">
+                <div class="w-full h-[40vh] md:h-[50vh] bg-darkgray rounded-xl overflow-hidden mb-4 relative flex items-center justify-center border border-white/5">
+                    <img id="detail-main-img" src="" alt="Product" class="w-full h-full object-cover transition-opacity duration-300">
+                </div>
+                
+                <div id="detail-thumbnails" class="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
+                    </div>
             </div>
 
             <div class="w-full md:w-1/2 p-6 md:p-10 flex flex-col justify-center bg-gradient-to-b from-darkgray to-black">
@@ -142,17 +150,11 @@
             <div class="p-8 flex flex-col gap-6">
                 <div class="flex items-center gap-4">
                     <div class="w-12 h-12 rounded-full border border-gold/40 bg-gold/10 flex items-center justify-center"><span class="text-gold text-xl">📞</span></div>
-                    <div>
-                        <p class="text-gray-400 text-sm mb-1 uppercase tracking-widest text-[10px] font-semibold">Call Support</p>
-                        <p class="text-white font-medium text-lg">+91 7579942958</p>
-                    </div>
+                    <div><p class="text-gray-400 text-sm mb-1 uppercase tracking-widest text-[10px] font-semibold">Call Support</p><p class="text-white font-medium text-lg">+91 7579942958</p></div>
                 </div>
                 <div class="flex items-center gap-4">
                     <div class="w-12 h-12 rounded-full border border-gold/40 bg-gold/10 flex items-center justify-center"><span class="text-gold text-xl">✉️</span></div>
-                    <div>
-                        <p class="text-gray-400 text-sm mb-1 uppercase tracking-widest text-[10px] font-semibold">Email Us</p>
-                        <a href="mailto:hanzalahshakir@gmail.com" class="text-white font-medium text-base hover:text-gold">hanzalahshakir@gmail.com</a>
-                    </div>
+                    <div><p class="text-gray-400 text-sm mb-1 uppercase tracking-widest text-[10px] font-semibold">Email Us</p><a href="mailto:hanzalahshakir@gmail.com" class="text-white font-medium text-base hover:text-gold">hanzalahshakir@gmail.com</a></div>
                 </div>
             </div>
         </div>
@@ -165,10 +167,7 @@
                 <button onclick="closeCheckout()" class="text-gray-400 hover:text-white transition-colors text-3xl leading-none">&times;</button>
             </div>
             <form id="payment-form" onsubmit="processPayment(event)" class="p-6 flex flex-col gap-4">
-                <div class="flex justify-between items-center mb-2">
-                    <span class="text-gray-300">Amount to Pay:</span>
-                    <span id="checkout-amount" class="text-2xl font-bold text-white tracking-wide">₹0</span>
-                </div>
+                <div class="flex justify-between items-center mb-2"><span class="text-gray-300">Amount to Pay:</span><span id="checkout-amount" class="text-2xl font-bold text-white tracking-wide">₹0</span></div>
                 <div><input type="text" required placeholder="Cardholder Name" class="checkout-input"></div>
                 <div><input type="text" required placeholder="Card Number" maxlength="19" class="checkout-input"></div>
                 <div class="flex gap-4">
@@ -182,18 +181,33 @@
     </div>
 
     <script>
-        // Database of products with descriptions added!
+        // DATABASE UPDATED: 'image' is now 'images' (an Array of multiple photos)
         const products = [
             { 
-                id: 1, name: 'Classic Oxford Leather', category: 'Shoes', price: 12999, image: 'For Trial.jpg',
+                id: 1, name: 'Classic Oxford Leather', category: 'Shoes', price: 12999, 
+                images: [
+                    'For Trial.jpg', 
+                    'https://images.unsplash.com/photo-1614252339460-e1b18c6cc92c?q=80&w=1000&auto=format&fit=crop', // Angle 2
+                    'https://images.unsplash.com/photo-1595341888016-a392ef81b7de?q=80&w=1000&auto=format&fit=crop'  // Angle 3
+                ],
                 description: 'Handcrafted from pure full-grain leather, these classic oxfords redefine elegance. Perfect for formal evenings and boardroom meetings, featuring a comfort-cushion insole and a durable welted sole designed to last a lifetime.'
             }, 
             { 
-                id: 2, name: 'Chronograph Gold Edition', category: 'Watches', price: 24999, image: 'https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?q=80&w=1000&auto=format&fit=crop',
+                id: 2, name: 'Chronograph Gold Edition', category: 'Watches', price: 24999, 
+                images: [
+                    'https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?q=80&w=1000&auto=format&fit=crop',
+                    'https://images.unsplash.com/photo-1524592094714-a5764260ae6f?q=80&w=1000&auto=format&fit=crop', // Angle 2
+                    'https://images.unsplash.com/photo-1587836171542-a892b152d0fa?q=80&w=1000&auto=format&fit=crop'  // Angle 3
+                ],
                 description: 'A masterpiece of precision horology. This chronograph features a 42mm 18k gold-plated stainless steel case, scratch-resistant sapphire crystal glass, and a highly precise quartz movement. Water-resistant up to 50 meters.'
             },
             { 
-                id: 3, name: 'Chelsea Suede Boots', category: 'Shoes', price: 15999, image: 'https://images.unsplash.com/photo-1605812860427-4024433a70fd?q=80&w=1000&auto=format&fit=crop',
+                id: 3, name: 'Chelsea Suede Boots', category: 'Shoes', price: 15999, 
+                images: [
+                    'https://images.unsplash.com/photo-1605812860427-4024433a70fd?q=80&w=1000&auto=format&fit=crop',
+                    'https://images.unsplash.com/photo-1620860265147-79468e21deea?q=80&w=1000&auto=format&fit=crop', // Angle 2
+                    'https://images.unsplash.com/photo-1581458039755-9018698e4dff?q=80&w=1000&auto=format&fit=crop'  // Angle 3
+                ],
                 description: 'Premium Italian suede meets modern urban style. These Chelsea boots slip on effortlessly with elasticated side panels and feature a stacked leather heel for a sharp, sophisticated profile that pairs perfectly with denim or suits.'
             }
         ];
@@ -206,55 +220,70 @@
             grid.innerHTML = products.map(product => `
                 <div data-aos="fade-up" class="group rounded-xl bg-darkgray overflow-hidden border border-gold/20 transition-all hover:-translate-y-2 duration-500 flex flex-col">
                     <div class="aspect-[4/5] bg-black flex items-center justify-center relative overflow-hidden cursor-pointer" onclick="openProductDetail(${product.id})">
-                        <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-700 ease-in-out">
+                        <img src="${product.images[0]}" alt="${product.name}" class="w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-700 ease-in-out">
                         <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                            <span class="text-white border border-white px-4 py-2 rounded-full text-sm tracking-widest">VIEW DETAILS</span>
+                            <span class="text-white border border-white px-4 py-2 rounded-full text-sm tracking-widest">VIEW GALLERY</span>
                         </div>
                     </div>
                     <div class="p-6 relative z-10 bg-darkgray mt-auto">
                         <p class="text-xs text-gold mb-1 tracking-widest uppercase font-bold">${product.category}</p>
                         <h3 class="text-lg font-bold text-white mb-2 line-clamp-1 cursor-pointer hover:text-gold transition-colors" onclick="openProductDetail(${product.id})">${product.name}</h3>
                         <p class="text-xl font-bold text-white mb-5">₹${product.price.toLocaleString('en-IN')}</p>
-                        <button onclick="addToCart(${product.id})" class="w-full bg-white text-black py-2.5 rounded-lg font-bold hover:bg-gold transition-colors text-sm">Quick Add to Cart</button>
+                        <button onclick="addToCart(${product.id})" class="w-full bg-white text-black py-2.5 rounded-lg font-bold hover:bg-gold transition-colors text-sm">Add to Cart</button>
                     </div>
                 </div>
             `).join('');
         }
 
-        // --- NEW PRODUCT DETAIL FUNCTIONS ---
+        // --- GALLERY FUNCTIONS ---
         function openProductDetail(id) {
             const product = products.find(p => p.id === id);
             if(!product) return;
 
-            // Update modal content
-            document.getElementById('detail-img').src = product.image;
+            // 1. Set Main Image to the first image
+            document.getElementById('detail-main-img').src = product.images[0];
+            
+            // 2. Build the Thumbnails (Choti photos)
+            const thumbsContainer = document.getElementById('detail-thumbnails');
+            thumbsContainer.innerHTML = product.images.map((imgSrc) => `
+                <button onclick="changeMainImage('${imgSrc}')" class="w-20 h-20 md:w-24 md:h-24 flex-shrink-0 rounded-lg overflow-hidden border-2 border-transparent focus:border-gold hover:border-gold transition-all bg-black">
+                    <img src="${imgSrc}" class="w-full h-full object-cover opacity-80 hover:opacity-100">
+                </button>
+            `).join('');
+
+            // 3. Set Text Info
             document.getElementById('detail-category').innerText = product.category;
             document.getElementById('detail-title').innerText = product.name;
             document.getElementById('detail-price').innerText = '₹' + product.price.toLocaleString('en-IN');
             document.getElementById('detail-desc').innerText = product.description;
             
-            // Set the "Add to Cart" button inside the modal to add this specific product
             document.getElementById('detail-add-btn').onclick = function() {
                 addToCart(product.id);
                 closeProductDetail();
-                openCartDrawer(); // Show cart after adding from detail page
+                openCartDrawer();
             };
 
-            // Show modal
             document.getElementById('product-detail-modal').classList.remove('hidden');
             document.getElementById('product-detail-modal').classList.add('flex');
-            
-            // Prevent body scrolling
             document.body.style.overflow = 'hidden';
+        }
+
+        function changeMainImage(src) {
+            const mainImg = document.getElementById('detail-main-img');
+            // Adding a small fade effect when changing images
+            mainImg.style.opacity = 0.5;
+            setTimeout(() => {
+                mainImg.src = src;
+                mainImg.style.opacity = 1;
+            }, 150);
         }
 
         function closeProductDetail() {
             document.getElementById('product-detail-modal').classList.add('hidden');
             document.getElementById('product-detail-modal').classList.remove('flex');
-            // Restore body scrolling
             document.body.style.overflow = 'auto';
         }
-        // ------------------------------------
+        // -------------------------
 
         function addToCart(id) {
             const product = products.find(p => p.id === id);
@@ -269,7 +298,7 @@
             updateCartUI();
         }
 
-        function updateCartUI() {
+       function updateCartUI() {
             document.getElementById('cart-count').innerText = cart.reduce((s, i) => s + i.quantity, 0);
             const total = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
             document.getElementById('cart-total').innerText = '₹' + total.toLocaleString('en-IN');
@@ -279,7 +308,7 @@
             else cont.innerHTML = cart.map(i => `
                 <div class="flex gap-4 items-center bg-darkgray p-3 rounded-xl border border-gold/10">
                     <div class="w-16 h-16 bg-black rounded overflow-hidden border border-gold/20">
-                        <img src="${i.image}" class="w-full h-full object-cover">
+                        <img src="${i.images[0]}" class="w-full h-full object-cover">
                     </div>
                     <div class="flex-1">
                         <h4 class="text-white text-sm font-bold line-clamp-1">${i.name}</h4>
@@ -293,29 +322,24 @@
             document.getElementById('cart-drawer').classList.remove('translate-x-full');
             document.getElementById('cart-overlay').classList.remove('opacity-0', 'invisible');
         }
-
         function toggleCart() {
             document.getElementById('cart-drawer').classList.toggle('translate-x-full');
             document.getElementById('cart-overlay').classList.toggle('opacity-0');
             document.getElementById('cart-overlay').classList.toggle('invisible');
         }
-
         function openContact() { document.getElementById('contact-modal').classList.replace('hidden', 'flex'); }
         function closeContact() { document.getElementById('contact-modal').classList.replace('flex', 'hidden'); }
-
         function openCheckout() {
             if(cart.length === 0) return alert("Cart is empty!");
             toggleCart();
             document.getElementById('checkout-modal').classList.replace('hidden', 'flex');
         }
-
         function closeCheckout() {
             document.getElementById('checkout-modal').classList.replace('flex', 'hidden');
             document.getElementById('payment-form').reset();
             document.getElementById('pay-button').classList.remove('hidden');
             document.getElementById('payment-status').classList.add('hidden');
         }
-
         function processPayment(e) {
             e.preventDefault();
             document.getElementById('pay-button').classList.add('hidden');
