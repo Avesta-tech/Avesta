@@ -17,6 +17,14 @@
                         gold: '#d4af37',
                         black: '#000000',
                         darkgray: '#111111'
+                    },
+                    // Naya custom animation tab switching ke liye
+                    animation: { 'fade-in': 'fadeIn 0.5s ease-out' },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'translateY(15px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        }
                     }
                 }
             }
@@ -26,15 +34,208 @@
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #000000; }
         ::-webkit-scrollbar-thumb { background: #d4af37; border-radius: 4px; }
-
         .hero-video { object-fit: cover !important; }
-
-        .checkout-input {
-            width: 100%; background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(212, 175, 55, 0.3); color: white;
-            padding: 0.75rem 1rem; border-radius: 0.5rem; outline: none; transition: all 0.3s;
-        }
+        .checkout-input { width: 100%; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(212, 175, 55, 0.3); color: white; padding: 0.75rem 1rem; border-radius: 0.5rem; outline: none; transition: all 0.3s; }
         .checkout-input:focus { border-color: #d4af37; background: rgba(255, 255, 255, 0.1); }
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-black text-white flex flex-col min-h-screen overflow-x-hidden">
+
+    <header class="fixed top-0 w-full z-50 bg-black/90 backdrop-blur-md border-b border-gold/30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="text-gold font-bold text-2xl tracking-widest flex items-center gap-2">
+                AVESTA <span class="text-gray-500 text-xs tracking-normal hidden md:inline">x Ultra Unique</span>
+            </div>
+            
+            <nav class="hidden md:flex space-x-8">
+                <a href="#" class="hover:text-gold transition-colors duration-300 font-medium">Home</a>
+                <a href="#products" class="hover:text-gold transition-colors duration-300 font-medium">Collection</a>
+            </nav>
+
+            <div class="flex items-center gap-6">
+                <button onclick="openContact()" class="text-white hover:text-gold transition-colors duration-300 font-medium">Contact</button>
+                <button onclick="toggleCart()" class="text-gold hover:text-white transition-colors duration-300 font-medium flex items-center gap-2 bg-white/5 px-4 py-2 rounded-full border border-gold/20">
+                    Cart (<span id="cart-count">0</span>)
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <section class="relative w-full h-screen flex items-center justify-center overflow-hidden bg-black">
+        <video autoplay loop muted playsinline class="absolute inset-0 w-full h-full z-0 hero-video">
+            <source src="avesta-launch.mp4" type="video/mp4">
+        </video>
+        <div class="absolute inset-0 bg-black/60 z-0"></div>
+        
+        <div class="relative z-10 text-center px-4 mt-16 overflow-hidden">
+            <h1 data-aos="fade-up" data-aos-delay="100" class="text-5xl md:text-7xl font-bold mb-4 text-white">
+                Redefine Your <span class="text-gold">Legacy</span>
+            </h1>
+            <p data-aos="fade-up" data-aos-delay="300" class="text-lg md:text-xl mb-8 max-w-2xl mx-auto text-gray-200 font-medium">
+                Step into elegance with premium lifestyle and home essentials.
+            </p>
+            <a data-aos="fade-up" data-aos-delay="1000" data-aos-duration="1500" href="#products" class="bg-gold text-black px-10 py-4 rounded-full font-bold hover:bg-white transition-all duration-300 inline-block cursor-pointer">
+                Explore Collection
+            </a>
+        </div>
+    </section>
+
+    <section id="products" class="w-full max-w-7xl mx-auto px-4 py-20 flex-grow relative z-10 bg-black">
+        <div data-aos="fade-up" class="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 border-b border-gold/30 pb-4 gap-4">
+            <h2 class="text-3xl font-bold text-white">Our Collections</h2>
+            <div class="flex gap-2 overflow-x-auto w-full md:w-auto pb-2 scrollbar-hide">
+                <button onclick="filterCategory('All')" class="cat-btn bg-gold text-black px-5 py-2 rounded-full text-sm font-bold whitespace-nowrap transition-all border border-gold">All</button>
+                <button onclick="filterCategory('Watches')" class="cat-btn bg-transparent text-gray-400 hover:text-gold px-5 py-2 rounded-full text-sm font-bold whitespace-nowrap transition-all border border-transparent hover:border-gold/50">Watches</button>
+                <button onclick="filterCategory('Shoes')" class="cat-btn bg-transparent text-gray-400 hover:text-gold px-5 py-2 rounded-full text-sm font-bold whitespace-nowrap transition-all border border-transparent hover:border-gold/50">Shoes</button>
+                <button onclick="filterCategory('Cleaning')" class="cat-btn bg-transparent text-gray-400 hover:text-gold px-5 py-2 rounded-full text-sm font-bold whitespace-nowrap transition-all border border-transparent hover:border-gold/50">Ultra Unique Cleaning</button>
+            </div>
+        </div>
+        <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+    </section>
+
+    <div id="product-detail-modal" class="fixed inset-0 z-[80] hidden items-center justify-center p-0 md:p-6 bg-black/95 backdrop-blur-xl transition-opacity">
+        <button onclick="closeProductDetail()" class="absolute top-4 right-4 md:top-8 md:right-8 text-gray-400 hover:text-white transition-colors text-5xl leading-none z-50 drop-shadow-lg">&times;</button>
+        <div class="bg-darkgray md:border md:border-gold/30 md:rounded-2xl w-full h-full md:h-auto md:max-h-[90vh] md:max-w-6xl overflow-y-auto shadow-[0_0_50px_rgba(212,175,55,0.1)] relative flex flex-col md:flex-row">
+            <div class="w-full md:w-1/2 bg-black flex flex-col p-4 md:p-8">
+                <div class="w-full h-[50vh] md:h-[65vh] bg-darkgray rounded-xl overflow-hidden mb-3 relative flex items-center justify-center border border-white/5">
+                    <img id="detail-main-img" src="" alt="Product" class="w-full h-full object-cover transition-opacity duration-300">
+                </div>
+                <div id="detail-thumbnails" class="flex gap-3 overflow-x-auto pb-2 scrollbar-hide"></div>
+            </div>
+            <div class="w-full md:w-1/2 p-6 md:p-10 flex flex-col justify-center bg-gradient-to-b from-darkgray to-black">
+                <p id="detail-category" class="text-gold text-sm tracking-widest uppercase font-bold mb-2"></p>
+                <h2 id="detail-title" class="text-3xl md:text-4xl font-bold text-white mb-2 leading-tight"></h2>
+                <div class="flex items-center gap-2 mb-4">
+                    <div class="flex text-gold text-sm">★★★★★</div>
+                    <span class="text-gray-400 text-sm">(Verified Premium Quality)</span>
+                </div>
+                <p id="detail-price" class="text-3xl font-bold text-white mb-6"></p>
+                <div class="mb-8">
+                    <h4 class="text-gray-400 text-xs uppercase tracking-wider mb-3 font-semibold border-b border-gold/20 pb-2">About this item</h4>
+                    <p id="detail-desc" class="text-gray-300 leading-relaxed text-sm md:text-base"></p>
+                </div>
+                <div class="flex flex-col gap-3 mt-auto">
+                    <button id="detail-add-btn" class="w-full bg-gold text-black py-4 rounded-xl font-bold hover:bg-white transition-all shadow-lg text-lg">Add to Cart</button>
+                    <button onclick="closeProductDetail()" class="w-full bg-transparent border border-gray-600 text-gray-300 py-3 rounded-xl font-medium hover:text-white hover:border-white transition-all">Back to Collection</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="cart-overlay" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 opacity-0 invisible transition-all duration-300" onclick="toggleCart()"></div>
+    <div id="cart-drawer" class="fixed top-0 right-0 h-full w-full sm:w-[400px] bg-black border-l border-gold/30 z-50 transform translate-x-full transition-transform duration-500 ease-in-out flex flex-col">
+        <div class="flex items-center justify-between p-6 border-b border-gold/20 bg-black">
+            <h2 class="text-gold text-xl font-bold tracking-widest uppercase">Your Cart</h2>
+            <button onclick="toggleCart()" class="text-gray-400 hover:text-white transition-colors text-3xl leading-none">&times;</button>
+        </div>
+        <div id="cart-items" class="flex-1 overflow-y-auto p-6 space-y-4"></div>
+        <div class="border-t border-gold/20 p-6 bg-black">
+            <div class="flex justify-between items-center mb-4"><span class="text-gray-300 font-medium">Total</span><span id="cart-total" class="text-white text-2xl font-bold">₹0</span></div>
+            <button onclick="openCheckout()" class="w-full bg-gold text-black py-3.5 rounded-xl font-bold hover:bg-white transition-all">Proceed to Checkout</button>
+        </div>
+    </div>
+
+    <div id="contact-modal" class="fixed inset-0 z-[60] hidden flex-col items-center justify-center p-4 bg-black/80 backdrop-blur-md transition-opacity">
+        <div class="bg-darkgray border border-gold/40 rounded-2xl w-full max-w-md overflow-hidden relative">
+            <div class="p-5 border-b border-gold/20 flex justify-between items-center">
+                <h4 class="text-gold font-bold text-xl tracking-wide">Contact Us</h4>
+                <button onclick="closeContact()" class="text-gray-400 hover:text-white transition-colors text-3xl leading-none">&times;</button>
+            </div>
+            <div class="p-8 flex flex-col gap-6">
+                <div class="flex items-center gap-4"><div class="w-12 h-12 rounded-full border border-gold/40 bg-gold/10 flex items-center justify-center"><span class="text-gold text-xl">📞</span></div><div><p class="text-gray-400 text-sm mb-1 uppercase tracking-widest text-[10px] font-semibold">Call Support</p><p class="text-white font-medium text-lg">+91 7579942958</p></div></div>
+                <div class="flex items-center gap-4"><div class="w-12 h-12 rounded-full border border-gold/40 bg-gold/10 flex items-center justify-center"><span class="text-gold text-xl">✉️</span></div><div><p class="text-gray-400 text-sm mb-1 uppercase tracking-widest text-[10px] font-semibold">Email Us</p><a href="mailto:avesta.online.org@gmail.com" class="text-white font-medium text-base hover:text-gold">avesta.online.org@gmail.com</a></div></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="checkout-modal" class="fixed inset-0 z-[70] hidden flex-col items-center justify-center p-4 bg-black/80 backdrop-blur-md transition-opacity">
+        <div class="bg-darkgray border border-gold/40 rounded-2xl w-full max-w-md overflow-hidden relative">
+            <div class="p-5 border-b border-gold/20 flex justify-between items-center">
+                <h4 class="text-gold font-bold text-xl tracking-wide">Secure Checkout</h4>
+                <button onclick="closeCheckout()" class="text-gray-400 hover:text-white transition-colors text-3xl leading-none">&times;</button>
+            </div>
+            <form id="payment-form" onsubmit="processPayment(event)" class="p-6 flex flex-col gap-4">
+                <div class="flex justify-between items-center mb-2"><span class="text-gray-300">Amount to Pay:</span><span id="checkout-amount" class="text-2xl font-bold text-white tracking-wide">₹0</span></div>
+                <div><input type="text" required placeholder="Cardholder Name" class="checkout-input"></div>
+                <div><input type="text" required placeholder="Card Number" maxlength="19" class="checkout-input"></div>
+                <div class="flex gap-4"><div class="flex-1"><input type="text" required placeholder="MM/YY" maxlength="5" class="checkout-input"></div><div class="flex-1"><input type="password" required placeholder="CVV" maxlength="3" class="checkout-input"></div></div>
+                <div id="payment-status" class="hidden text-center py-2"><p class="text-gold font-medium animate-pulse">Processing...</p></div>
+                <button id="pay-button" type="submit" class="mt-4 w-full bg-gold text-black py-3.5 rounded-xl font-bold hover:bg-white transition-all">Pay Now</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const products = [
+            { id: 1, name: 'Classic Oxford Leather', category: 'Shoes', price: 12999, images: ['oxford-1.jpg', 'oxford-2.jpg', 'oxford-3.jpg'], description: 'Handcrafted from pure full-grain leather, these classic oxfords redefine elegance. Perfect for formal evenings and boardroom meetings.' }, 
+            { id: 2, name: 'Chronograph Gold Edition', category: 'Watches', price: 24999, images: ['watch-1.jpg', 'watch-2.jpg', 'watch-3.jpg'], description: 'A masterpiece of precision horology. This chronograph features a 42mm 18k gold-plated stainless steel case and highly precise quartz movement.' },
+            { id: 3, name: 'Chelsea Suede Boots', category: 'Shoes', price: 15999, images: ['boot-1.jpg', 'boot-2.jpg', 'boot-3.jpg'], description: 'Premium Italian suede meets modern urban style. These Chelsea boots slip on effortlessly for a sharp, sophisticated profile.' },
+            { id: 4, name: 'Superior Bathroom Wiper', category: 'Cleaning', price: 349, images: ['wiper-1.jpg', 'wiper-2.jpg', 'wiper-3.jpg'], description: 'Ultra Unique Superior Bathroom Wiper (Product Code: S001). Features a 300 mm Virgin Plastic blade with an 85 cm Powder Coated Rod. Premium quality, 100% Made in India.' },
+            { id: 5, name: 'White Dust Control Mop 24"', category: 'Cleaning', price: 599, images: ['mop-1.jpg', 'mop-2.jpg', 'mop-3.jpg'], description: 'Ultra Unique White Color Dust Control Mop (Product Code: DC02). Features pure cotton yarn for ultimate absorption, complete with an 80 cm powder-coated rod. 100% Original Product.' },
+            { id: 6, name: 'Diamond Spray Bottle', category: 'Cleaning', price: 149, images: ['spray-1.jpg', 'spray-2.jpg', 'spray-3.jpg'], description: 'Ultra Unique Diamond Spray Bottle (Product Code: DS01). Lightweight (89 gm) with an elegant multi-faceted design. Perfect for premium home cleaning experiences.' }
+        ];
+
+        let cart = [];
+        let currentCategory = 'All';
+
+        function renderProducts() {
+            const grid = document.getElementById('product-grid');
+            if(!grid) return;
+            const filteredProducts = currentCategory === 'All' ? products : products.filter(p => p.category === currentCategory);
+            
+            // Animation yahan update ki gayi hai (animate-fade-in) jisse AOS ka bug na aaye
+            grid.innerHTML = filteredProducts.map(product => `
+                <div class="animate-fade-in group rounded-xl bg-darkgray overflow-hidden border border-gold/20 transition-all hover:-translate-y-2 duration-500 flex flex-col">
+                    <div class="aspect-[4/5] bg-black flex items-center justify-center relative overflow-hidden cursor-pointer" onclick="openProductDetail(${product.id})">
+                        <img src="${product.images[0]}" alt="${product.name}" class="w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-700 ease-in-out">
+                        <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center"><span class="text-white border border-white px-4 py-2 rounded-full text-sm tracking-widest">VIEW GALLERY</span></div>
+                    </div>
+                    <div class="p-6 relative z-10 bg-darkgray mt-auto">
+                        <p class="text-xs text-gold mb-1 tracking-widest uppercase font-bold">${product.category === 'Cleaning' ? 'Ultra Unique' : product.category}</p>
+                        <h3 class="text-lg font-bold text-white mb-2 line-clamp-1 cursor-pointer hover:text-gold transition-colors" onclick="openProductDetail(${product.id})">${product.name}</h3>
+                        <p class="text-xl font-bold text-white mb-5">₹${product.price.toLocaleString('en-IN')}</p>
+                        <button onclick="addToCart(${product.id})" class="w-full bg-white text-black py-2.5 rounded-lg font-bold hover:bg-gold transition-colors text-sm">Add to Cart</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterCategory(category) {
+            currentCategory = category;
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                if(btn.innerText.includes(category) || (category === 'Cleaning' && btn.innerText.includes('Ultra'))) {
+                    btn.classList.add('bg-gold', 'text-black', 'border-gold'); btn.classList.remove('bg-transparent', 'text-gray-400', 'border-transparent');
+                } else {
+                    btn.classList.remove('bg-gold', 'text-black', 'border-gold'); btn.classList.add('bg-transparent', 'text-gray-400', 'border-transparent');
+                }
+            });
+            renderProducts();
+        }
+
+        function openProductDetail(id) {
+            const product = products.find(p => p.id === id);
+            if(!product) return;
+            document.getElementById('detail-main-img').src = product.images[0];
+            const thumbsContainer = document.getElementById('detail-thumbnails');
+            thumbsContainer.innerHTML = product.images.map((imgSrc) => `<button onclick="changeMainImage('${imgSrc}')" class="w-16 h-16 md:w-20 md:h-20 flex-shrink-0 rounded-lg overflow-hidden border-2 border-transparent focus:border-gold hover:border-gold transition-all bg-black"><img src="${imgSrc}" class="w-full h-full object-cover opacity-80 hover:opacity-100"></button>`).join('');
+            document.getElementById('detail-category').innerText = product.category === 'Cleaning' ? 'Ultra Unique Cleaning' : product.category;
+            document.getElementById('detail-title').innerText = product.name;
+            document.getElementById('detail-price').innerText = '₹' + product.price.toLocaleString('en-IN');
+            document.getElementById('detail-desc').innerText = product.description;
+            document.getElementById('detail-add-btn').onclick = function() { addToCart(product.id); closeProductDetail(); openCartDrawer(); };
+            document.getElementById('product-detail-modal').classList.remove('hidden'); document.getElementById('product-detail-modal').classList.add('flex'); document.body.style.overflow = 'hidden';
+        }
+
+        function changeMainImage(src) {
+            const mainImg = document.getElementById('detail-main-img'); mainImg.style.opacity = 0.5;
+            setTimeout(() => { mainImg.src = src; mainImg.style.opacity = 1; }, 150);
+        }
+
+        function closeProductDetail() { document.getElementById('product-detail-modal').classList.add('hidden'); document.getElementById('product-detail-modal').classList.remove('flex'); document.body.style.overflow = 'auto'; }
+        function addToCart(id) { const product = products.find(p => p.id === id); const item = cart.find(i => i.id === id); if (item) item.quantity++; else cart.push({ ...product, quantity: 1 }); updateCartUI(); }
+            .checkout-input:focus { border-color: #d4af37; background: rgba(255, 255, 255, 0.1); }
         
         .scrollbar-hide::-webkit-scrollbar { display: none; }
         .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
