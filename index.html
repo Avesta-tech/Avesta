@@ -44,8 +44,13 @@
 
     <header class="fixed top-0 w-full z-50 bg-black/90 backdrop-blur-md border-b border-gold/30">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-            <div class="text-gold font-bold text-2xl tracking-widest flex items-center gap-2">
-                AVESTA <span class="text-gray-500 text-xs tracking-normal hidden md:inline">x Ultra Unique</span>
+            
+            <div class="flex items-center cursor-pointer" onclick="window.scrollTo(0,0)">
+                <img src="Avesta logo.jpg" alt="Avesta" class="h-6 md:h-7 object-contain invert hover:opacity-80 transition-opacity">
+                
+                <span class="text-gray-500 font-medium mx-3 text-sm hidden md:inline">x</span>
+                
+                <img src="ULTRA UNIQUE LOGO.jpg.png" alt="Ultra Unique" class="h-5 md:h-6 object-contain hidden md:inline hover:opacity-80 transition-opacity">
             </div>
             
             <nav class="hidden md:flex space-x-8">
@@ -241,40 +246,4 @@
             document.getElementById('detail-category').innerText = product.category === 'Cleaning' ? 'Ultra Unique Cleaning' : product.category;
             document.getElementById('detail-title').innerText = product.name;
             document.getElementById('detail-price').innerText = '₹' + product.price.toLocaleString('en-IN');
-            document.getElementById('detail-desc').innerText = product.description;
-            document.getElementById('detail-add-btn').onclick = function() { addToCart(product.id); closeProductDetail(); openCartDrawer(); };
-            document.getElementById('product-detail-modal').classList.remove('hidden'); document.getElementById('product-detail-modal').classList.add('flex'); document.body.style.overflow = 'hidden';
-        }
-
-        function changeMainImage(src) {
-            const mainImg = document.getElementById('detail-main-img'); mainImg.style.opacity = 0.5;
-            setTimeout(() => { mainImg.src = src; mainImg.style.opacity = 1; }, 150);
-        }
-
-        function closeProductDetail() { document.getElementById('product-detail-modal').classList.add('hidden'); document.getElementById('product-detail-modal').classList.remove('flex'); document.body.style.overflow = 'auto'; }
-        function addToCart(id) { const product = products.find(p => p.id === id); const item = cart.find(i => i.id === id); if (item) item.quantity++; else cart.push({ ...product, quantity: 1 }); updateCartUI(); }
-        function removeFromCart(id) { cart = cart.filter(i => i.id !== id); updateCartUI(); }
-        function updateCartUI() {
-            document.getElementById('cart-count').innerText = cart.reduce((s, i) => s + i.quantity, 0);
-            const total = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
-            document.getElementById('cart-total').innerText = '₹' + total.toLocaleString('en-IN'); document.getElementById('checkout-amount').innerText = '₹' + total.toLocaleString('en-IN');
-            const cont = document.getElementById('cart-items');
-            if (cart.length === 0) cont.innerHTML = '<p class="text-center text-gray-400 mt-10">Your cart is empty.</p>';
-            else cont.innerHTML = cart.map(i => `<div class="flex gap-4 items-center bg-darkgray p-3 rounded-xl border border-gold/10"><div class="w-16 h-16 bg-black rounded overflow-hidden border border-gold/20"><img src="${i.images[0]}" class="w-full h-full object-cover"></div><div class="flex-1"><h4 class="text-white text-sm font-bold line-clamp-1">${i.name}</h4><p class="text-gray-400 text-xs mt-1">Qty: ${i.quantity} | ₹${i.price.toLocaleString('en-IN')}</p></div><button onclick="removeFromCart(${i.id})" class="text-gray-500 hover:text-red-400 transition-colors text-2xl px-2 leading-none">&times;</button></div>`).join('');
-        }
-        
-        function openCartDrawer() { document.getElementById('cart-drawer').classList.remove('translate-x-full'); document.getElementById('cart-overlay').classList.remove('opacity-0', 'invisible'); }
-        function toggleCart() { document.getElementById('cart-drawer').classList.toggle('translate-x-full'); document.getElementById('cart-overlay').classList.toggle('opacity-0'); document.getElementById('cart-overlay').classList.toggle('invisible'); }
-        function openContact() { document.getElementById('contact-modal').classList.replace('hidden', 'flex'); }
-        function closeContact() { document.getElementById('contact-modal').classList.replace('flex', 'hidden'); }
-        function openCheckout() { if(cart.length === 0) return alert("Cart is empty!"); toggleCart(); document.getElementById('checkout-modal').classList.replace('hidden', 'flex'); }
-        function closeCheckout() { document.getElementById('checkout-modal').classList.replace('flex', 'hidden'); document.getElementById('payment-form').reset(); document.getElementById('pay-button').classList.remove('hidden'); document.getElementById('payment-status').classList.add('hidden'); }
-        function processPayment(e) { e.preventDefault(); document.getElementById('pay-button').classList.add('hidden'); document.getElementById('payment-status').classList.remove('hidden'); setTimeout(() => { document.getElementById('payment-status').innerHTML = '<p class="text-green-400 font-bold text-lg">Payment Successful!</p>'; setTimeout(() => { cart = []; updateCartUI(); closeCheckout(); }, 2000); }, 2000); }
-
-        renderProducts();
-    </script>
-
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script> AOS.init({ duration: 1000, once: true, easing: 'ease-out' }); </script>
-</body>
-</html>
+            document.getElementById('detail-desc').innerTex
