@@ -43,12 +43,14 @@
 <body class="bg-black text-white flex flex-col min-h-screen overflow-x-hidden">
 
     <header class="fixed top-0 w-full z-50 bg-black/90 backdrop-blur-md border-b border-gold/30">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-24 flex items-center justify-between">
             
             <div class="flex items-center gap-3 cursor-pointer flex-shrink-0" onclick="window.scrollTo(0,0)">
                 <img src="Avesta logo.jpg" alt="Avesta" class="h-8 md:h-10 object-contain invert hover:opacity-80 transition-opacity mix-blend-screen">
+                
                 <span class="text-gray-500 font-medium text-lg hidden md:inline">x</span>
-                <img src="Ultra Unique Logo.jpg" alt="Ultra Unique" class="h-10 md:h-12 object-contain hidden md:inline hover:opacity-80 transition-opacity mix-blend-screen">
+                
+                <img src="Ultra Unique Logo.jpg" alt="Ultra Unique" class="h-14 md:h-20 object-contain hidden md:inline hover:opacity-80 transition-opacity mix-blend-screen">
             </div>
             
             <nav class="hidden md:flex space-x-8">
@@ -84,7 +86,7 @@
         </div>
     </section>
 
-    <section id="products" class="w-full max-w-7xl mx-auto px-4 py-20 flex-grow relative z-10 bg-black">
+    <section id="products" class="w-full max-w-7xl mx-auto px-4 py-20 flex-grow relative z-10 bg-black mt-4">
         <div data-aos="fade-up" class="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 border-b border-gold/30 pb-4 gap-4">
             <h2 class="text-3xl font-bold text-white">Our Collections</h2>
             <div class="flex gap-2 overflow-x-auto w-full md:w-auto pb-2 scrollbar-hide">
@@ -198,86 +200,22 @@
             { id: 3, name: 'Chelsea Suede Boots', category: 'Shoes', price: 15999, images: ['boot-1.jpg', 'boot-2.jpg', 'boot-3.jpg'], description: 'Premium Italian suede meets modern urban style. These Chelsea boots slip on effortlessly for a sharp, sophisticated profile.' },
             
             // ULTRA UNIQUE CATALOGUE - FULL INTEGRATION
-            { 
-                id: 4, name: 'Superior Bathroom Wiper', category: 'Cleaning', price: 349, 
-                images: ['s001.jpg', 's001.jpg', 's001.jpg'], 
-                description: 'Product Code: S001\nCategory: Plastic Wipers\n\nFeatures:\n• Size: 300 mm Blade\n• Wiper Blade: Virgin Plastic\n• Rod Size: 85 cm Powder Coated Rod\n• Wiper Weight: 105 gm\n• Rod Weight: 194 gm\n• 100% Original Product, Made in India.' 
-            },
-            { 
-                id: 5, name: 'Superior Wiper (40cm)', category: 'Cleaning', price: 399, 
-                images: ['s002.jpg', 's002.jpg', 's002.jpg'], 
-                description: 'Product Code: S002\nCategory: Plastic Wipers\n\nFeatures:\n• Size: 400 mm Blade\n• Wiper Blade: Virgin Plastic\n• Rod Size: 106 cm Powder Coated Rod\n• Wiper Weight: 137 gm\n• Rod Weight: 249 gm\n• Premium Quality.' 
-            },
-            { 
-                id: 6, name: 'Superior Plus Wiper', category: 'Cleaning', price: 449, 
-                images: ['s003.jpg', 's003.jpg', 's003.jpg'], 
-                description: 'Product Code: S003\nCategory: Plastic Wipers\n\nFeatures:\n• Size: 500 mm Blade\n• Wiper Blade: Virgin Plastic\n• Rod Size: 128 cm Powder Coated Rod\n• Wiper Weight: 188 gm\n• Rod Weight: 300 gm\n• Maximum coverage for large bathrooms.' 
-            },
-            { 
-                id: 7, name: 'Mr. Pro Max Wiper (24")', category: 'Cleaning', price: 549, 
-                images: ['mp03.jpg', 'mp03.jpg', 'mp03.jpg'], 
-                description: 'Product Code: MP03\nCategory: Plastic Wipers\n\nFeatures:\n• Size: 600 mm Blade\n• Wiper Blade: Virgin Plastic\n• Rod Size: 128 cm Powder Coated Rod\n• Wiper Weight: 274 gm\n• Rod Weight: 372 gm\n• Heavy-duty cleaning.' 
-            },
-            { 
-                id: 8, name: 'Mr. Pro Floor Wiper', category: 'Cleaning', price: 399, 
-                images: ['mp01.jpg', 'mp01.jpg', 'mp01.jpg'], 
-                description: 'Product Code: MP01\nCategory: Floor Wipers\n\nFeatures:\n• Size: 400 mm Blade\n• Wiper Blade: Virgin Plastic\n• Rod Size: 80 cm Powder Coated Rod\n• Wiper Weight: 143 gm\n• Rod Weight: 242 gm.' 
-            },
-            { 
-                id: 9, name: 'Superior 2X Floor Wiper', category: 'Cleaning', price: 429, 
-                images: ['s2x1.jpg', 's2x1.jpg', 's2x1.jpg'], 
-                description: 'Product Code: S2x1\nCategory: Floor Wipers\n\nFeatures:\n• Size: 400 mm Blade\n• Wiper Blade: Virgin Plastic\n• Rod Size: 106 cm Powder Coated Rod\n• Rod Weight: 249 gm.' 
-            },
-            { 
-                id: 10, name: 'Kitchen Wiper', category: 'Cleaning', price: 199, 
-                images: ['sk04.jpg', 'sk04.jpg', 'sk04.jpg'], 
-                description: 'Product Code: SK04\nCategory: Kitchen / Floor Wipers\n\nFeatures:\n• Size: 200 mm Blade\n• Wiper Blade: Virgin Plastic\n• Weight: 65 gm\n• Handy and compact for counter cleaning.' 
-            },
-            { 
-                id: 11, name: 'Gray Color Mop - 18"', category: 'Cleaning', price: 699, 
-                images: ['dc01.jpg', 'dc01.jpg', 'dc01.jpg'], 
-                description: 'Product Code: DC01\nCategory: Dust Control Mops\n\nFeatures:\n• Rod Size: 80 cm Powder Coated Rod\n• Mop Weight: 765 gm (Small)\n• Rod Weight: 380 gm\n• Material: Pure Cotton Yarn.' 
-            },
-            { 
-                id: 12, name: 'White Color Mop - 24"', category: 'Cleaning', price: 899, 
-                images: ['dc02.jpg', 'dc02.jpg', 'dc02.jpg'], 
-                description: 'Product Code: DC02\nCategory: Dust Control Mops\n\nFeatures:\n• Rod Size: 80 cm Powder Coated Rod\n• Mop Weight: 917 gm (Big)\n• Rod Weight: 380 gm\n• Material: Pure Cotton Yarn.' 
-            },
-            { 
-                id: 13, name: 'Feeder Brush', category: 'Cleaning', price: 149, 
-                images: ['bp001.jpg', 'bp001.jpg', 'bp001.jpg'], 
-                description: 'Product Code: BP001\nCategory: Brushes\n\nFeatures:\n• Weight: 39 gm\n• Perfect for thorough cleaning of baby feeders and slim bottles.' 
-            },
-            { 
-                id: 14, name: 'Jar Brush', category: 'Cleaning', price: 179, 
-                images: ['bp002.jpg', 'bp002.jpg', 'bp002.jpg'], 
-                description: 'Product Code: BP002\nCategory: Brushes\n\nFeatures:\n• Weight: 59 gm\n• Durable bristles designed to scrub jars and containers effortlessly.' 
-            },
-            { 
-                id: 15, name: 'Choke Pump (Medium)', category: 'Cleaning', price: 299, 
-                images: ['cp02.jpg', 'cp02.jpg', 'cp02.jpg'], 
-                description: 'Product Code: CP02\nCategory: Choke Pumps\n\nFeatures:\n• Rod Size: 48cm Powder Coated Rod\n• Rubber Size: 10.16cm\n• Weight: 149 gm.' 
-            },
-            { 
-                id: 16, name: 'Choke Pump (Small)', category: 'Cleaning', price: 249, 
-                images: ['cp01.jpg', 'cp01.jpg', 'cp01.jpg'], 
-                description: 'Product Code: CP01\nCategory: Choke Pumps\n\nFeatures:\n• Rod Size: 32cm Powder Coated Rod\n• Rubber Size: 7.62cm\n• Weight: 135 gm.' 
-            },
-            { 
-                id: 17, name: 'Diamond Spray Bottle', category: 'Cleaning', price: 149, 
-                images: ['ds01.jpg', 'ds01.jpg', 'ds01.jpg'], 
-                description: 'Product Code: DS01\nCategory: Miscellaneous\n\nFeatures:\n• Weight: 89 gm\n• Elegant diamond-cut design for storing cleaning liquids.' 
-            },
-            { 
-                id: 18, name: 'Ultra Unique Dust Pan', category: 'Cleaning', price: 199, 
-                images: ['ud01.jpg', 'ud01.jpg', 'ud01.jpg'], 
-                description: 'Product Code: UD01\nCategory: Miscellaneous\n\nFeatures:\n• Material: Virgin Plastic\n• Weight: 113 gm\n• Premium dust collection pan.' 
-            },
-            { 
-                id: 19, name: 'Premium Sweeper', category: 'Cleaning', price: 299, 
-                images: ['b003.jpg', 'b003.jpg', 'b003.jpg'], 
-                description: 'Product Code: B003\nCategory: Miscellaneous\n\nFeatures:\n• Material: Virgin Plastic\n• Excellent for everyday dry sweeping tasks.' 
-            }
+            { id: 4, name: 'Superior Bathroom Wiper', category: 'Cleaning', price: 349, images: ['s001.jpg', 's001.jpg', 's001.jpg'], description: 'Product Code: S001\nCategory: Plastic Wipers\n\nFeatures:\n• Size: 300 mm Blade\n• Wiper Blade: Virgin Plastic\n• Rod Size: 85 cm Powder Coated Rod\n• Wiper Weight: 105 gm\n• Rod Weight: 194 gm\n• 100% Original Product, Made in India.' },
+            { id: 5, name: 'Superior Wiper (40cm)', category: 'Cleaning', price: 399, images: ['s002.jpg', 's002.jpg', 's002.jpg'], description: 'Product Code: S002\nCategory: Plastic Wipers\n\nFeatures:\n• Size: 400 mm Blade\n• Wiper Blade: Virgin Plastic\n• Rod Size: 106 cm Powder Coated Rod\n• Wiper Weight: 137 gm\n• Rod Weight: 249 gm\n• Premium Quality.' },
+            { id: 6, name: 'Superior Plus Wiper', category: 'Cleaning', price: 449, images: ['s003.jpg', 's003.jpg', 's003.jpg'], description: 'Product Code: S003\nCategory: Plastic Wipers\n\nFeatures:\n• Size: 500 mm Blade\n• Wiper Blade: Virgin Plastic\n• Rod Size: 128 cm Powder Coated Rod\n• Wiper Weight: 188 gm\n• Rod Weight: 300 gm\n• Maximum coverage for large bathrooms.' },
+            { id: 7, name: 'Mr. Pro Max Wiper (24")', category: 'Cleaning', price: 549, images: ['mp03.jpg', 'mp03.jpg', 'mp03.jpg'], description: 'Product Code: MP03\nCategory: Plastic Wipers\n\nFeatures:\n• Size: 600 mm Blade\n• Wiper Blade: Virgin Plastic\n• Rod Size: 128 cm Powder Coated Rod\n• Wiper Weight: 274 gm\n• Rod Weight: 372 gm\n• Heavy-duty cleaning.' },
+            { id: 8, name: 'Mr. Pro Floor Wiper', category: 'Cleaning', price: 399, images: ['mp01.jpg', 'mp01.jpg', 'mp01.jpg'], description: 'Product Code: MP01\nCategory: Floor Wipers\n\nFeatures:\n• Size: 400 mm Blade\n• Wiper Blade: Virgin Plastic\n• Rod Size: 80 cm Powder Coated Rod\n• Wiper Weight: 143 gm\n• Rod Weight: 242 gm.' },
+            { id: 9, name: 'Superior 2X Floor Wiper', category: 'Cleaning', price: 429, images: ['s2x1.jpg', 's2x1.jpg', 's2x1.jpg'], description: 'Product Code: S2x1\nCategory: Floor Wipers\n\nFeatures:\n• Size: 400 mm Blade\n• Wiper Blade: Virgin Plastic\n• Rod Size: 106 cm Powder Coated Rod\n• Rod Weight: 249 gm.' },
+            { id: 10, name: 'Kitchen Wiper', category: 'Cleaning', price: 199, images: ['sk04.jpg', 'sk04.jpg', 'sk04.jpg'], description: 'Product Code: SK04\nCategory: Kitchen / Floor Wipers\n\nFeatures:\n• Size: 200 mm Blade\n• Wiper Blade: Virgin Plastic\n• Weight: 65 gm\n• Handy and compact for counter cleaning.' },
+            { id: 11, name: 'Gray Color Mop - 18"', category: 'Cleaning', price: 699, images: ['dc01.jpg', 'dc01.jpg', 'dc01.jpg'], description: 'Product Code: DC01\nCategory: Dust Control Mops\n\nFeatures:\n• Rod Size: 80 cm Powder Coated Rod\n• Mop Weight: 765 gm (Small)\n• Rod Weight: 380 gm\n• Material: Pure Cotton Yarn.' },
+            { id: 12, name: 'White Color Mop - 24"', category: 'Cleaning', price: 899, images: ['dc02.jpg', 'dc02.jpg', 'dc02.jpg'], description: 'Product Code: DC02\nCategory: Dust Control Mops\n\nFeatures:\n• Rod Size: 80 cm Powder Coated Rod\n• Mop Weight: 917 gm (Big)\n• Rod Weight: 380 gm\n• Material: Pure Cotton Yarn.' },
+            { id: 13, name: 'Feeder Brush', category: 'Cleaning', price: 149, images: ['bp001.jpg', 'bp001.jpg', 'bp001.jpg'], description: 'Product Code: BP001\nCategory: Brushes\n\nFeatures:\n• Weight: 39 gm\n• Perfect for thorough cleaning of baby feeders and slim bottles.' },
+            { id: 14, name: 'Jar Brush', category: 'Cleaning', price: 179, images: ['bp002.jpg', 'bp002.jpg', 'bp002.jpg'], description: 'Product Code: BP002\nCategory: Brushes\n\nFeatures:\n• Weight: 59 gm\n• Durable bristles designed to scrub jars and containers effortlessly.' },
+            { id: 15, name: 'Choke Pump (Medium)', category: 'Cleaning', price: 299, images: ['cp02.jpg', 'cp02.jpg', 'cp02.jpg'], description: 'Product Code: CP02\nCategory: Choke Pumps\n\nFeatures:\n• Rod Size: 48cm Powder Coated Rod\n• Rubber Size: 10.16cm\n• Weight: 149 gm.' },
+            { id: 16, name: 'Choke Pump (Small)', category: 'Cleaning', price: 249, images: ['cp01.jpg', 'cp01.jpg', 'cp01.jpg'], description: 'Product Code: CP01\nCategory: Choke Pumps\n\nFeatures:\n• Rod Size: 32cm Powder Coated Rod\n• Rubber Size: 7.62cm\n• Weight: 135 gm.' },
+            { id: 17, name: 'Diamond Spray Bottle', category: 'Cleaning', price: 149, images: ['ds01.jpg', 'ds01.jpg', 'ds01.jpg'], description: 'Product Code: DS01\nCategory: Miscellaneous\n\nFeatures:\n• Weight: 89 gm\n• Elegant diamond-cut design for storing cleaning liquids.' },
+            { id: 18, name: 'Ultra Unique Dust Pan', category: 'Cleaning', price: 199, images: ['ud01.jpg', 'ud01.jpg', 'ud01.jpg'], description: 'Product Code: UD01\nCategory: Miscellaneous\n\nFeatures:\n• Material: Virgin Plastic\n• Weight: 113 gm\n• Premium dust collection pan.' },
+            { id: 19, name: 'Premium Sweeper', category: 'Cleaning', price: 299, images: ['b003.jpg', 'b003.jpg', 'b003.jpg'], description: 'Product Code: B003\nCategory: Miscellaneous\n\nFeatures:\n• Material: Virgin Plastic\n• Excellent for everyday dry sweeping tasks.' }
         ];
 
         let cart = [];
