@@ -47,9 +47,7 @@
             
             <div class="flex items-center gap-3 cursor-pointer flex-shrink-0" onclick="window.scrollTo(0,0)">
                 <img src="Avesta logo.jpg" alt="Avesta" class="h-8 md:h-10 object-contain invert hover:opacity-80 transition-opacity mix-blend-screen">
-                
                 <span class="text-gray-500 font-medium text-lg hidden md:inline">x</span>
-                
                 <img src="Ultra Unique Logo.jpg" alt="Ultra Unique" class="h-10 md:h-12 object-contain hidden md:inline hover:opacity-80 transition-opacity mix-blend-screen">
             </div>
             
@@ -118,7 +116,7 @@
                 <p id="detail-price" class="text-3xl font-bold text-white mb-6"></p>
                 <div class="mb-8">
                     <h4 class="text-gray-400 text-xs uppercase tracking-wider mb-3 font-semibold border-b border-gold/20 pb-2">About this item</h4>
-                    <p id="detail-desc" class="text-gray-300 leading-relaxed text-sm md:text-base"></p>
+                    <p id="detail-desc" class="text-gray-300 leading-relaxed text-sm md:text-base whitespace-pre-line"></p>
                 </div>
                 <div class="flex flex-col gap-3 mt-auto">
                     <button id="detail-add-btn" class="w-full bg-gold text-black py-4 rounded-xl font-bold hover:bg-white transition-all shadow-lg text-lg">Add to Cart</button>
@@ -168,6 +166,7 @@
                     <div>
                         <p class="text-gray-400 text-sm mb-1 uppercase tracking-widest text-[10px] font-semibold">Headquarters</p>
                         <p class="text-white font-medium text-base">Agra, India</p>
+                        <p class="text-gray-400 text-xs mt-1">www.ultraunique.in</p>
                     </div>
                 </div>
             </div>
@@ -193,12 +192,92 @@
 
     <script>
         const products = [
+            // AVESTA PRODUCTS
             { id: 1, name: 'Classic Oxford Leather', category: 'Shoes', price: 12999, images: ['oxford-1.jpg', 'oxford-2.jpg', 'oxford-3.jpg'], description: 'Handcrafted from pure full-grain leather, these classic oxfords redefine elegance. Perfect for formal evenings and boardroom meetings.' }, 
             { id: 2, name: 'Chronograph Gold Edition', category: 'Watches', price: 24999, images: ['watch-1.jpg', 'watch-2.jpg', 'watch-3.jpg'], description: 'A masterpiece of precision horology. This chronograph features a 42mm 18k gold-plated stainless steel case and highly precise quartz movement.' },
             { id: 3, name: 'Chelsea Suede Boots', category: 'Shoes', price: 15999, images: ['boot-1.jpg', 'boot-2.jpg', 'boot-3.jpg'], description: 'Premium Italian suede meets modern urban style. These Chelsea boots slip on effortlessly for a sharp, sophisticated profile.' },
-            { id: 4, name: 'Superior Bathroom Wiper', category: 'Cleaning', price: 349, images: ['wiper-1.jpg', 'wiper-2.jpg', 'wiper-3.jpg'], description: 'Ultra Unique Superior Bathroom Wiper (Product Code: S001). Features a 300 mm Virgin Plastic blade with an 85 cm Powder Coated Rod. Premium quality, 100% Made in India.' },
-            { id: 5, name: 'White Dust Control Mop 24"', category: 'Cleaning', price: 599, images: ['mop-1.jpg', 'mop-2.jpg', 'mop-3.jpg'], description: 'Ultra Unique White Color Dust Control Mop (Product Code: DC02). Features pure cotton yarn for ultimate absorption, complete with an 80 cm powder-coated rod. 100% Original Product.' },
-            { id: 6, name: 'Diamond Spray Bottle', category: 'Cleaning', price: 149, images: ['spray-1.jpg', 'spray-2.jpg', 'spray-3.jpg'], description: 'Ultra Unique Diamond Spray Bottle (Product Code: DS01). Lightweight (89 gm) with an elegant multi-faceted design. Perfect for premium home cleaning experiences.' }
+            
+            // ULTRA UNIQUE CATALOGUE - FULL INTEGRATION
+            { 
+                id: 4, name: 'Superior Bathroom Wiper', category: 'Cleaning', price: 349, 
+                images: ['s001.jpg', 's001.jpg', 's001.jpg'], 
+                description: 'Product Code: S001\nCategory: Plastic Wipers\n\nFeatures:\n• Size: 300 mm Blade\n• Wiper Blade: Virgin Plastic\n• Rod Size: 85 cm Powder Coated Rod\n• Wiper Weight: 105 gm\n• Rod Weight: 194 gm\n• 100% Original Product, Made in India.' 
+            },
+            { 
+                id: 5, name: 'Superior Wiper (40cm)', category: 'Cleaning', price: 399, 
+                images: ['s002.jpg', 's002.jpg', 's002.jpg'], 
+                description: 'Product Code: S002\nCategory: Plastic Wipers\n\nFeatures:\n• Size: 400 mm Blade\n• Wiper Blade: Virgin Plastic\n• Rod Size: 106 cm Powder Coated Rod\n• Wiper Weight: 137 gm\n• Rod Weight: 249 gm\n• Premium Quality.' 
+            },
+            { 
+                id: 6, name: 'Superior Plus Wiper', category: 'Cleaning', price: 449, 
+                images: ['s003.jpg', 's003.jpg', 's003.jpg'], 
+                description: 'Product Code: S003\nCategory: Plastic Wipers\n\nFeatures:\n• Size: 500 mm Blade\n• Wiper Blade: Virgin Plastic\n• Rod Size: 128 cm Powder Coated Rod\n• Wiper Weight: 188 gm\n• Rod Weight: 300 gm\n• Maximum coverage for large bathrooms.' 
+            },
+            { 
+                id: 7, name: 'Mr. Pro Max Wiper (24")', category: 'Cleaning', price: 549, 
+                images: ['mp03.jpg', 'mp03.jpg', 'mp03.jpg'], 
+                description: 'Product Code: MP03\nCategory: Plastic Wipers\n\nFeatures:\n• Size: 600 mm Blade\n• Wiper Blade: Virgin Plastic\n• Rod Size: 128 cm Powder Coated Rod\n• Wiper Weight: 274 gm\n• Rod Weight: 372 gm\n• Heavy-duty cleaning.' 
+            },
+            { 
+                id: 8, name: 'Mr. Pro Floor Wiper', category: 'Cleaning', price: 399, 
+                images: ['mp01.jpg', 'mp01.jpg', 'mp01.jpg'], 
+                description: 'Product Code: MP01\nCategory: Floor Wipers\n\nFeatures:\n• Size: 400 mm Blade\n• Wiper Blade: Virgin Plastic\n• Rod Size: 80 cm Powder Coated Rod\n• Wiper Weight: 143 gm\n• Rod Weight: 242 gm.' 
+            },
+            { 
+                id: 9, name: 'Superior 2X Floor Wiper', category: 'Cleaning', price: 429, 
+                images: ['s2x1.jpg', 's2x1.jpg', 's2x1.jpg'], 
+                description: 'Product Code: S2x1\nCategory: Floor Wipers\n\nFeatures:\n• Size: 400 mm Blade\n• Wiper Blade: Virgin Plastic\n• Rod Size: 106 cm Powder Coated Rod\n• Rod Weight: 249 gm.' 
+            },
+            { 
+                id: 10, name: 'Kitchen Wiper', category: 'Cleaning', price: 199, 
+                images: ['sk04.jpg', 'sk04.jpg', 'sk04.jpg'], 
+                description: 'Product Code: SK04\nCategory: Kitchen / Floor Wipers\n\nFeatures:\n• Size: 200 mm Blade\n• Wiper Blade: Virgin Plastic\n• Weight: 65 gm\n• Handy and compact for counter cleaning.' 
+            },
+            { 
+                id: 11, name: 'Gray Color Mop - 18"', category: 'Cleaning', price: 699, 
+                images: ['dc01.jpg', 'dc01.jpg', 'dc01.jpg'], 
+                description: 'Product Code: DC01\nCategory: Dust Control Mops\n\nFeatures:\n• Rod Size: 80 cm Powder Coated Rod\n• Mop Weight: 765 gm (Small)\n• Rod Weight: 380 gm\n• Material: Pure Cotton Yarn.' 
+            },
+            { 
+                id: 12, name: 'White Color Mop - 24"', category: 'Cleaning', price: 899, 
+                images: ['dc02.jpg', 'dc02.jpg', 'dc02.jpg'], 
+                description: 'Product Code: DC02\nCategory: Dust Control Mops\n\nFeatures:\n• Rod Size: 80 cm Powder Coated Rod\n• Mop Weight: 917 gm (Big)\n• Rod Weight: 380 gm\n• Material: Pure Cotton Yarn.' 
+            },
+            { 
+                id: 13, name: 'Feeder Brush', category: 'Cleaning', price: 149, 
+                images: ['bp001.jpg', 'bp001.jpg', 'bp001.jpg'], 
+                description: 'Product Code: BP001\nCategory: Brushes\n\nFeatures:\n• Weight: 39 gm\n• Perfect for thorough cleaning of baby feeders and slim bottles.' 
+            },
+            { 
+                id: 14, name: 'Jar Brush', category: 'Cleaning', price: 179, 
+                images: ['bp002.jpg', 'bp002.jpg', 'bp002.jpg'], 
+                description: 'Product Code: BP002\nCategory: Brushes\n\nFeatures:\n• Weight: 59 gm\n• Durable bristles designed to scrub jars and containers effortlessly.' 
+            },
+            { 
+                id: 15, name: 'Choke Pump (Medium)', category: 'Cleaning', price: 299, 
+                images: ['cp02.jpg', 'cp02.jpg', 'cp02.jpg'], 
+                description: 'Product Code: CP02\nCategory: Choke Pumps\n\nFeatures:\n• Rod Size: 48cm Powder Coated Rod\n• Rubber Size: 10.16cm\n• Weight: 149 gm.' 
+            },
+            { 
+                id: 16, name: 'Choke Pump (Small)', category: 'Cleaning', price: 249, 
+                images: ['cp01.jpg', 'cp01.jpg', 'cp01.jpg'], 
+                description: 'Product Code: CP01\nCategory: Choke Pumps\n\nFeatures:\n• Rod Size: 32cm Powder Coated Rod\n• Rubber Size: 7.62cm\n• Weight: 135 gm.' 
+            },
+            { 
+                id: 17, name: 'Diamond Spray Bottle', category: 'Cleaning', price: 149, 
+                images: ['ds01.jpg', 'ds01.jpg', 'ds01.jpg'], 
+                description: 'Product Code: DS01\nCategory: Miscellaneous\n\nFeatures:\n• Weight: 89 gm\n• Elegant diamond-cut design for storing cleaning liquids.' 
+            },
+            { 
+                id: 18, name: 'Ultra Unique Dust Pan', category: 'Cleaning', price: 199, 
+                images: ['ud01.jpg', 'ud01.jpg', 'ud01.jpg'], 
+                description: 'Product Code: UD01\nCategory: Miscellaneous\n\nFeatures:\n• Material: Virgin Plastic\n• Weight: 113 gm\n• Premium dust collection pan.' 
+            },
+            { 
+                id: 19, name: 'Premium Sweeper', category: 'Cleaning', price: 299, 
+                images: ['b003.jpg', 'b003.jpg', 'b003.jpg'], 
+                description: 'Product Code: B003\nCategory: Miscellaneous\n\nFeatures:\n• Material: Virgin Plastic\n• Excellent for everyday dry sweeping tasks.' 
+            }
         ];
 
         let cart = [];
