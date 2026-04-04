@@ -239,34 +239,13 @@
         let cart = [];
         let currentCategory = 'All';
         
-        // BIG LIST OF SINGLE-USE PROMO CODES
+        // ALL 25 PROMO CODES
         const validPromoCodes = {
-            'LEGACY500': 500,
-            'AVESTA200': 200,
-            'UNIQUE100': 100,
-            'VIP300': 300,
-            'FIRST50': 50,
-            // 20 NEW CODES ADDED BELOW
-            'LUCKY500': 500,
-            'AGRA250': 250,
-            'CLEAN150': 150,
-            'LUXURY400': 400,
-            'MEGA1000': 1000,
-            'SECRET500': 500,
-            'SUPER200': 200,
-            'PROMO150': 150,
-            'GIFT350': 350,
-            'WELCOME100': 100,
-            'SHINE200': 200,
-            'ULTRA300': 300,
-            'GOLD500': 500,
-            'ELITE400': 400,
-            'FLASH250': 250,
-            'WINNER500': 500,
-            'MAGIC200': 200,
-            'PREMIUM300': 300,
-            'SAVE150': 150,
-            'BONUS250': 250
+            'LEGACY500': 500, 'AVESTA200': 200, 'UNIQUE100': 100, 'VIP300': 300, 'FIRST50': 50,
+            'LUCKY500': 500, 'AGRA250': 250, 'CLEAN150': 150, 'LUXURY400': 400, 'MEGA1000': 1000,
+            'SECRET500': 500, 'SUPER200': 200, 'PROMO150': 150, 'GIFT350': 350, 'WELCOME100': 100,
+            'SHINE200': 200, 'ULTRA300': 300, 'GOLD500': 500, 'ELITE400': 400, 'FLASH250': 250,
+            'WINNER500': 500, 'MAGIC200': 200, 'PREMIUM300': 300, 'SAVE150': 150, 'BONUS250': 250
         };
 
         let currentDiscount = 0;
@@ -339,23 +318,33 @@
             updateCartUI(); 
         }
 
+        // --- NEW SMART TIERED MINIMUM PURCHASE LOGIC ---
         function applyPromo() {
             const inputVal = document.getElementById('promo-input').value.trim().toUpperCase();
             const msgBox = document.getElementById('promo-message');
             const subtotal = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
 
-            // Checking Local Storage for Used Codes
             let usedCodes = JSON.parse(localStorage.getItem('usedPromoCodes')) || [];
 
             if (validPromoCodes.hasOwnProperty(inputVal)) {
+                let discountValue = validPromoCodes[inputVal];
+                
+                // Determine Minimum Purchase limit based on discount value
+                let minPurchase = 800; // Default for <= 300
+                if (discountValue > 400) {
+                    minPurchase = 1999;
+                } else if (discountValue > 300) {
+                    minPurchase = 1000;
+                }
+
                 if (usedCodes.includes(inputVal)) {
                     currentDiscount = 0;
                     activePromoCode = '';
                     msgBox.innerText = "❌ This code has already been used.";
                     msgBox.className = "text-xs mb-4 text-red-400 font-medium";
                     msgBox.classList.remove('hidden');
-                } else if (subtotal >= 1999) {
-                    currentDiscount = validPromoCodes[inputVal];
+                } else if (subtotal >= minPurchase) {
+                    currentDiscount = discountValue;
                     activePromoCode = inputVal;
                     msgBox.innerText = `✓ VIP Pass applied! ₹${currentDiscount} off.`;
                     msgBox.className = "text-xs mb-4 text-green-400 font-medium";
@@ -363,7 +352,7 @@
                 } else {
                     currentDiscount = 0;
                     activePromoCode = '';
-                    msgBox.innerText = "❌ Minimum purchase of ₹1,999 required.";
+                    msgBox.innerText = `❌ Minimum purchase of ₹${minPurchase.toLocaleString('en-IN')} required.`;
                     msgBox.className = "text-xs mb-4 text-red-400 font-medium";
                     msgBox.classList.remove('hidden');
                 }
@@ -385,12 +374,25 @@
             document.getElementById('cart-count').innerText = cart.reduce((s, i) => s + i.quantity, 0);
             const subtotal = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
             
-            if (activePromoCode && subtotal < 1999) {
+            // SMART AUTO-REMOVE LOGIC BASED ON TIERS
+            let requiredMinPurchase = 0;
+            if (activePromoCode) {
+                let activeDiscValue = validPromoCodes[activePromoCode];
+                if (activeDiscValue > 400) {
+                    requiredMinPurchase = 1999;
+                } else if (activeDiscValue > 300) {
+                    requiredMinPurchase = 1000;
+                } else {
+                    requiredMinPurchase = 800;
+                }
+            }
+
+            if (activePromoCode && subtotal < requiredMinPurchase) {
                 currentDiscount = 0;
                 activePromoCode = '';
                 document.getElementById('promo-input').value = '';
                 const msgBox = document.getElementById('promo-message');
-                msgBox.innerText = "Promo removed (Min. order ₹1999)";
+                msgBox.innerText = `Promo removed (Min. order ₹${requiredMinPurchase.toLocaleString('en-IN')})`;
                 msgBox.className = "text-xs mb-4 text-red-400 font-medium";
                 msgBox.classList.remove('hidden');
             }
@@ -431,7 +433,6 @@
             setTimeout(() => { 
                 document.getElementById('payment-status').innerHTML = '<p class="text-green-400 font-bold text-lg">Payment Successful!</p>'; 
                 
-                // MARK CODE AS USED IN LOCAL STORAGE
                 if (activePromoCode) {
                     let usedCodes = JSON.parse(localStorage.getItem('usedPromoCodes')) || [];
                     if (!usedCodes.includes(activePromoCode)) {
