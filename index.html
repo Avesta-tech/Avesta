@@ -94,7 +94,8 @@
                 <button onclick="filterCategory('Cleaning')" class="cat-btn bg-transparent text-gray-400 hover:text-gold px-5 py-2 rounded-full text-sm font-bold whitespace-nowrap transition-all border border-transparent hover:border-gold/50">Ultra Unique Cleaning</button>
             </div>
         </div>
-        <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+        
+        <div id="product-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-8"></div>
     </section>
 
     <div id="product-detail-modal" class="fixed inset-0 z-[80] hidden items-center justify-center p-0 md:p-6 bg-black/95 backdrop-blur-xl transition-opacity">
@@ -208,10 +209,7 @@
             { id: 12, name: 'White Color Mop - 24"', category: 'Cleaning', price: 899, images: ['White Color Mop.jpg', 'White Color Mop.jpg', 'White Color Mop.jpg'], description: 'Product Code: DC02\nCategory: Dust Control Mops\n\nFeatures:\n• Rod Size: 80 cm Powder Coated Rod\n• Mop Weight: 917 gm (Big)\n• Rod Weight: 380 gm\n• Material: Pure Cotton Yarn.' },
             { id: 13, name: 'Feeder Brush', category: 'Cleaning', price: 149, images: ['Feeder Brush.jpg', 'Feeder Brush.jpg', 'Feeder Brush.jpg'], description: 'Product Code: BP001\nCategory: Brushes\n\nFeatures:\n• Weight: 39 gm\n• Perfect for thorough cleaning of baby feeders and slim bottles.' },
             { id: 14, name: 'Jar Brush', category: 'Cleaning', price: 179, images: ['Jar Brush.jpg', 'Jar Brush.jpg', 'Jar Brush.jpg'], description: 'Product Code: BP002\nCategory: Brushes\n\nFeatures:\n• Weight: 59 gm\n• Durable bristles designed to scrub jars and containers effortlessly.' },
-            
-            // MERGED CHOKE PUMP
-            { id: 15, name: 'Choke Pump', category: 'Cleaning', price: 249, images: ['Choke Pump.jpg', 'Choke Pump.jpg', 'Choke Pump.jpg'], description: 'Product Codes: CP01 (Small) & CP02 (Medium)\nCategory: Choke Pumps\n\nFeatures:\n• Rod Size: 32cm (Small) / 48cm (Medium) Powder Coated Rod\n• Rubber Size: 7.62cm (Small) / 10.16cm (Medium)\n• Weight: 135 gm (Small) / 149 gm (Medium)\n\n*(Note: Default cart price is for Small. Medium size is ₹299)*' },
-            
+            { id: 15, name: 'Choke Pump (Medium & Small)', category: 'Cleaning', price: 249, images: ['Choke Pump.jpg', 'Choke Pump.jpg', 'Choke Pump.jpg'], description: 'Product Codes: CP01 (Small) & CP02 (Medium)\nCategory: Choke Pumps\n\nFeatures:\n• Rod Size: 32cm (Small) / 48cm (Medium) Powder Coated Rod\n• Rubber Size: 7.62cm (Small) / 10.16cm (Medium)\n• Weight: 135 gm (Small) / 149 gm (Medium)\n\n*(Note: Default cart price is for Small. Medium size is ₹299)*' },
             { id: 16, name: 'Diamond Spray Bottle', category: 'Cleaning', price: 149, images: ['Diamond Spray Bottle.jpg', 'Diamond Spray Bottle.jpg', 'Diamond Spray Bottle.jpg'], description: 'Product Code: DS01\nCategory: Miscellaneous\n\nFeatures:\n• Weight: 89 gm\n• Elegant diamond-cut design for storing cleaning liquids.' },
             { id: 17, name: 'Ultra Unique Dust Pan', category: 'Cleaning', price: 199, images: ['Ultra Unique Dust Pan.jpg', 'Ultra Unique Dust Pan.jpg', 'Ultra Unique Dust Pan.jpg'], description: 'Product Code: UD01\nCategory: Miscellaneous\n\nFeatures:\n• Material: Virgin Plastic\n• Weight: 113 gm\n• Premium dust collection pan.' },
             { id: 18, name: 'Premium Sweeper', category: 'Cleaning', price: 299, images: ['Premium Sweeper.jpg', 'Premium Sweeper.jpg', 'Premium Sweeper.jpg'], description: 'Product Code: B003\nCategory: Miscellaneous\n\nFeatures:\n• Material: Virgin Plastic\n• Excellent for everyday dry sweeping tasks.' }
@@ -225,18 +223,18 @@
             if(!grid) return;
             const filteredProducts = currentCategory === 'All' ? products : products.filter(p => p.category === currentCategory);
             
-            // FIXED: aspect-[4/5] changed to aspect-square, and object-cover to object-contain with p-6
+            // YAHAN CHANGED HUA HAI: text sizes aur padding choti screen ke liye optimized hain (md: prefix ke saath)
             grid.innerHTML = filteredProducts.map(product => `
                 <div class="animate-fade-in group rounded-xl bg-darkgray overflow-hidden border border-gold/20 transition-all hover:-translate-y-2 duration-500 flex flex-col">
                     <div class="aspect-square bg-[#0a0a0a] flex items-center justify-center relative overflow-hidden cursor-pointer" onclick="openProductDetail(${product.id})">
-                        <img src="${product.images[0]}" alt="${product.name}" class="w-full h-full object-contain p-6 opacity-90 group-hover:scale-105 transition-transform duration-700 ease-in-out">
-                        <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center"><span class="text-white border border-white px-4 py-2 rounded-full text-sm tracking-widest">VIEW GALLERY</span></div>
+                        <img src="${product.images[0]}" alt="${product.name}" class="w-full h-full object-contain p-3 md:p-6 opacity-90 group-hover:scale-105 transition-transform duration-700 ease-in-out">
+                        <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center"><span class="text-white border border-white px-2 py-1 md:px-4 md:py-2 rounded-full text-[10px] md:text-sm tracking-widest">VIEW</span></div>
                     </div>
-                    <div class="p-6 relative z-10 bg-darkgray mt-auto">
-                        <p class="text-xs text-gold mb-1 tracking-widest uppercase font-bold">${product.category === 'Cleaning' ? 'Ultra Unique' : product.category}</p>
-                        <h3 class="text-lg font-bold text-white mb-2 line-clamp-1 cursor-pointer hover:text-gold transition-colors" onclick="openProductDetail(${product.id})">${product.name}</h3>
-                        <p class="text-xl font-bold text-white mb-5">₹${product.price.toLocaleString('en-IN')}</p>
-                        <button onclick="addToCart(${product.id})" class="w-full bg-white text-black py-2.5 rounded-lg font-bold hover:bg-gold transition-colors text-sm">Add to Cart</button>
+                    <div class="p-3 md:p-6 relative z-10 bg-darkgray mt-auto flex flex-col justify-end flex-grow">
+                        <p class="text-[10px] md:text-xs text-gold mb-1 tracking-widest uppercase font-bold">${product.category === 'Cleaning' ? 'Ultra Unique' : product.category}</p>
+                        <h3 class="text-sm md:text-lg font-bold text-white mb-1 md:mb-2 line-clamp-1 cursor-pointer hover:text-gold transition-colors" onclick="openProductDetail(${product.id})">${product.name}</h3>
+                        <p class="text-base md:text-xl font-bold text-white mb-3 md:mb-5">₹${product.price.toLocaleString('en-IN')}</p>
+                        <button onclick="addToCart(${product.id})" class="w-full bg-white text-black py-1.5 md:py-2.5 rounded-lg font-bold hover:bg-gold transition-colors text-xs md:text-sm mt-auto">Add to Cart</button>
                     </div>
                 </div>
             `).join('');
@@ -259,7 +257,6 @@
             if(!product) return;
             document.getElementById('detail-main-img').src = product.images[0];
             const thumbsContainer = document.getElementById('detail-thumbnails');
-            // FIXED: Thumbnails also changed to object-contain with p-1
             thumbsContainer.innerHTML = product.images.map((imgSrc) => `<button onclick="changeMainImage('${imgSrc}')" class="w-16 h-16 md:w-20 md:h-20 flex-shrink-0 rounded-lg overflow-hidden border-2 border-transparent focus:border-gold hover:border-gold transition-all bg-[#0a0a0a] p-1"><img src="${imgSrc}" class="w-full h-full object-contain opacity-80 hover:opacity-100"></button>`).join('');
             document.getElementById('detail-category').innerText = product.category === 'Cleaning' ? 'Ultra Unique Cleaning' : product.category;
             document.getElementById('detail-title').innerText = product.name;
