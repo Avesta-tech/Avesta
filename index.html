@@ -101,8 +101,8 @@
         <button onclick="closeProductDetail()" class="absolute top-4 right-4 md:top-8 md:right-8 text-gray-400 hover:text-white transition-colors text-5xl leading-none z-50 drop-shadow-lg">&times;</button>
         <div class="bg-darkgray md:border md:border-gold/30 md:rounded-2xl w-full h-full md:h-auto md:max-h-[90vh] md:max-w-6xl overflow-y-auto shadow-[0_0_50px_rgba(212,175,55,0.1)] relative flex flex-col md:flex-row">
             <div class="w-full md:w-1/2 bg-black flex flex-col p-4 md:p-8">
-                <div class="w-full h-[50vh] md:h-[65vh] bg-darkgray rounded-xl overflow-hidden mb-3 relative flex items-center justify-center border border-white/5">
-                    <img id="detail-main-img" src="" alt="Product" class="w-full h-full object-cover transition-opacity duration-300">
+                <div class="w-full h-[50vh] md:h-[65vh] bg-[#0a0a0a] rounded-xl overflow-hidden mb-3 relative flex items-center justify-center border border-white/5">
+                    <img id="detail-main-img" src="" alt="Product" class="w-full h-full object-contain p-8 transition-opacity duration-300">
                 </div>
                 <div id="detail-thumbnails" class="flex gap-3 overflow-x-auto pb-2 scrollbar-hide"></div>
             </div>
@@ -196,7 +196,7 @@
             { id: 2, name: 'Chronograph Gold Edition', category: 'Watches', price: 24999, images: ['watch-1.jpg', 'watch-2.jpg', 'watch-3.jpg'], description: 'A masterpiece of precision horology. This chronograph features a 42mm 18k gold-plated stainless steel case and highly precise quartz movement.' },
             { id: 3, name: 'Chelsea Suede Boots', category: 'Shoes', price: 15999, images: ['boot-1.jpg', 'boot-2.jpg', 'boot-3.jpg'], description: 'Premium Italian suede meets modern urban style. These Chelsea boots slip on effortlessly for a sharp, sophisticated profile.' },
             
-            // ULTRA UNIQUE CATALOGUE - COMBINED CHOKE PUMP
+            // ULTRA UNIQUE CATALOGUE
             { id: 4, name: 'Superior Bathroom Wiper', category: 'Cleaning', price: 349, images: ['Superior Bathroom Wiper.jpg', 'Superior Bathroom Wiper.jpg', 'Superior Bathroom Wiper.jpg'], description: 'Product Code: S001\nCategory: Plastic Wipers\n\nFeatures:\n• Size: 300 mm Blade\n• Wiper Blade: Virgin Plastic\n• Rod Size: 85 cm Powder Coated Rod\n• Wiper Weight: 105 gm\n• Rod Weight: 194 gm\n• 100% Original Product, Made in India.' },
             { id: 5, name: 'Superior Wiper (40cm)', category: 'Cleaning', price: 399, images: ['Superior Wiper 40cm.jpg', 'Superior Wiper 40cm.jpg', 'Superior Wiper 40cm.jpg'], description: 'Product Code: S002\nCategory: Plastic Wipers\n\nFeatures:\n• Size: 400 mm Blade\n• Wiper Blade: Virgin Plastic\n• Rod Size: 106 cm Powder Coated Rod\n• Wiper Weight: 137 gm\n• Rod Weight: 249 gm\n• Premium Quality.' },
             { id: 6, name: 'Superior Plus Wiper', category: 'Cleaning', price: 449, images: ['Superior Plus Wiper.jpg', 'Superior Plus Wiper.jpg', 'Superior Plus Wiper.jpg'], description: 'Product Code: S003\nCategory: Plastic Wipers\n\nFeatures:\n• Size: 500 mm Blade\n• Wiper Blade: Virgin Plastic\n• Rod Size: 128 cm Powder Coated Rod\n• Wiper Weight: 188 gm\n• Rod Weight: 300 gm\n• Maximum coverage for large bathrooms.' },
@@ -209,7 +209,7 @@
             { id: 13, name: 'Feeder Brush', category: 'Cleaning', price: 149, images: ['Feeder Brush.jpg', 'Feeder Brush.jpg', 'Feeder Brush.jpg'], description: 'Product Code: BP001\nCategory: Brushes\n\nFeatures:\n• Weight: 39 gm\n• Perfect for thorough cleaning of baby feeders and slim bottles.' },
             { id: 14, name: 'Jar Brush', category: 'Cleaning', price: 179, images: ['Jar Brush.jpg', 'Jar Brush.jpg', 'Jar Brush.jpg'], description: 'Product Code: BP002\nCategory: Brushes\n\nFeatures:\n• Weight: 59 gm\n• Durable bristles designed to scrub jars and containers effortlessly.' },
             
-            // MERGED CHOKE PUMP SECTION
+            // MERGED CHOKE PUMP
             { id: 15, name: 'Choke Pump (Medium & Small)', category: 'Cleaning', price: 249, images: ['Choke Pump.jpg', 'Choke Pump.jpg', 'Choke Pump.jpg'], description: 'Product Codes: CP01 (Small) & CP02 (Medium)\nCategory: Choke Pumps\n\nFeatures:\n• Rod Size: 32cm (Small) / 48cm (Medium) Powder Coated Rod\n• Rubber Size: 7.62cm (Small) / 10.16cm (Medium)\n• Weight: 135 gm (Small) / 149 gm (Medium)\n\n*(Note: Default cart price is for Small. Medium size is ₹299)*' },
             
             { id: 16, name: 'Diamond Spray Bottle', category: 'Cleaning', price: 149, images: ['Diamond Spray Bottle.jpg', 'Diamond Spray Bottle.jpg', 'Diamond Spray Bottle.jpg'], description: 'Product Code: DS01\nCategory: Miscellaneous\n\nFeatures:\n• Weight: 89 gm\n• Elegant diamond-cut design for storing cleaning liquids.' },
@@ -225,10 +225,11 @@
             if(!grid) return;
             const filteredProducts = currentCategory === 'All' ? products : products.filter(p => p.category === currentCategory);
             
+            // FIXED: aspect-[4/5] changed to aspect-square, and object-cover to object-contain with p-6
             grid.innerHTML = filteredProducts.map(product => `
                 <div class="animate-fade-in group rounded-xl bg-darkgray overflow-hidden border border-gold/20 transition-all hover:-translate-y-2 duration-500 flex flex-col">
-                    <div class="aspect-[4/5] bg-black flex items-center justify-center relative overflow-hidden cursor-pointer" onclick="openProductDetail(${product.id})">
-                        <img src="${product.images[0]}" alt="${product.name}" class="w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-700 ease-in-out">
+                    <div class="aspect-square bg-[#0a0a0a] flex items-center justify-center relative overflow-hidden cursor-pointer" onclick="openProductDetail(${product.id})">
+                        <img src="${product.images[0]}" alt="${product.name}" class="w-full h-full object-contain p-6 opacity-90 group-hover:scale-105 transition-transform duration-700 ease-in-out">
                         <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center"><span class="text-white border border-white px-4 py-2 rounded-full text-sm tracking-widest">VIEW GALLERY</span></div>
                     </div>
                     <div class="p-6 relative z-10 bg-darkgray mt-auto">
@@ -258,7 +259,8 @@
             if(!product) return;
             document.getElementById('detail-main-img').src = product.images[0];
             const thumbsContainer = document.getElementById('detail-thumbnails');
-            thumbsContainer.innerHTML = product.images.map((imgSrc) => `<button onclick="changeMainImage('${imgSrc}')" class="w-16 h-16 md:w-20 md:h-20 flex-shrink-0 rounded-lg overflow-hidden border-2 border-transparent focus:border-gold hover:border-gold transition-all bg-black"><img src="${imgSrc}" class="w-full h-full object-cover opacity-80 hover:opacity-100"></button>`).join('');
+            // FIXED: Thumbnails also changed to object-contain with p-1
+            thumbsContainer.innerHTML = product.images.map((imgSrc) => `<button onclick="changeMainImage('${imgSrc}')" class="w-16 h-16 md:w-20 md:h-20 flex-shrink-0 rounded-lg overflow-hidden border-2 border-transparent focus:border-gold hover:border-gold transition-all bg-[#0a0a0a] p-1"><img src="${imgSrc}" class="w-full h-full object-contain opacity-80 hover:opacity-100"></button>`).join('');
             document.getElementById('detail-category').innerText = product.category === 'Cleaning' ? 'Ultra Unique Cleaning' : product.category;
             document.getElementById('detail-title').innerText = product.name;
             document.getElementById('detail-price').innerText = '₹' + product.price.toLocaleString('en-IN');
@@ -281,7 +283,7 @@
             document.getElementById('cart-total').innerText = '₹' + total.toLocaleString('en-IN'); document.getElementById('checkout-amount').innerText = '₹' + total.toLocaleString('en-IN');
             const cont = document.getElementById('cart-items');
             if (cart.length === 0) cont.innerHTML = '<p class="text-center text-gray-400 mt-10">Your cart is empty.</p>';
-            else cont.innerHTML = cart.map(i => `<div class="flex gap-4 items-center bg-darkgray p-3 rounded-xl border border-gold/10"><div class="w-16 h-16 bg-black rounded overflow-hidden border border-gold/20"><img src="${i.images[0]}" class="w-full h-full object-cover"></div><div class="flex-1"><h4 class="text-white text-sm font-bold line-clamp-1">${i.name}</h4><p class="text-gray-400 text-xs mt-1">Qty: ${i.quantity} | ₹${i.price.toLocaleString('en-IN')}</p></div><button onclick="removeFromCart(${i.id})" class="text-gray-500 hover:text-red-400 transition-colors text-2xl px-2 leading-none">&times;</button></div>`).join('');
+            else cont.innerHTML = cart.map(i => `<div class="flex gap-4 items-center bg-darkgray p-3 rounded-xl border border-gold/10"><div class="w-16 h-16 bg-[#0a0a0a] rounded overflow-hidden border border-gold/20"><img src="${i.images[0]}" class="w-full h-full object-contain p-1"></div><div class="flex-1"><h4 class="text-white text-sm font-bold line-clamp-1">${i.name}</h4><p class="text-gray-400 text-xs mt-1">Qty: ${i.quantity} | ₹${i.price.toLocaleString('en-IN')}</p></div><button onclick="removeFromCart(${i.id})" class="text-gray-500 hover:text-red-400 transition-colors text-2xl px-2 leading-none">&times;</button></div>`).join('');
         }
         
         function openCartDrawer() { document.getElementById('cart-drawer').classList.remove('translate-x-full'); document.getElementById('cart-overlay').classList.remove('opacity-0', 'invisible'); }
