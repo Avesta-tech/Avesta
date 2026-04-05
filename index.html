@@ -117,18 +117,18 @@
                     <ul class="space-y-3 text-sm text-gray-400">
                         <li><a href="#" class="hover:text-gold transition-colors">Home</a></li>
                         <li><a href="#products" class="hover:text-gold transition-colors">Our Collection</a></li>
-                        <li><a href="#" onclick="openContact()" class="hover:text-gold transition-colors">Contact Us</a></li>
-                        <li><a href="#" onclick="toggleCart()" class="hover:text-gold transition-colors">Your Cart</a></li>
+                        <li><a href="#" onclick="openContact()" class="hover:text-gold transition-colors cursor-pointer">Contact Us</a></li>
+                        <li><a href="#" onclick="toggleCart()" class="hover:text-gold transition-colors cursor-pointer">Your Cart</a></li>
                     </ul>
                 </div>
                 
                 <div>
                     <h4 class="text-gold font-bold uppercase tracking-widest text-sm mb-6">Policies</h4>
                     <ul class="space-y-3 text-sm text-gray-400">
-                        <li><a href="#" class="hover:text-gold transition-colors">Privacy Policy</a></li>
-                        <li><a href="#" class="hover:text-gold transition-colors">Terms of Service</a></li>
-                        <li><a href="#" class="hover:text-gold transition-colors">Return & Refund Policy</a></li>
-                        <li><a href="#" class="hover:text-gold transition-colors">Shipping Information</a></li>
+                        <li><a onclick="openPolicy('privacy')" class="hover:text-gold transition-colors cursor-pointer">Privacy Policy</a></li>
+                        <li><a onclick="openPolicy('terms')" class="hover:text-gold transition-colors cursor-pointer">Terms of Service</a></li>
+                        <li><a onclick="openPolicy('return')" class="hover:text-gold transition-colors cursor-pointer">Return & Refund Policy</a></li>
+                        <li><a onclick="openPolicy('shipping')" class="hover:text-gold transition-colors cursor-pointer">Shipping Information</a></li>
                     </ul>
                 </div>
                 
@@ -162,6 +162,17 @@
             </div>
         </div>
     </footer>
+
+    <div id="policy-modal" class="fixed inset-0 z-[90] hidden flex-col items-center justify-center p-4 bg-black/90 backdrop-blur-md transition-opacity">
+        <div class="bg-darkgray border border-gold/40 rounded-2xl w-full max-w-2xl max-h-[85vh] overflow-hidden relative flex flex-col shadow-[0_0_50px_rgba(212,175,55,0.1)]">
+            <div class="p-6 border-b border-gold/20 flex justify-between items-center bg-black">
+                <h4 id="policy-title" class="text-gold font-bold text-2xl tracking-wide uppercase">Policy Title</h4>
+                <button onclick="closePolicy()" class="text-gray-400 hover:text-white transition-colors text-4xl leading-none">&times;</button>
+            </div>
+            <div class="p-6 md:p-8 overflow-y-auto flex-1 text-gray-300 text-sm md:text-base leading-relaxed" id="policy-content">
+                </div>
+        </div>
+    </div>
 
     <div id="product-detail-modal" class="fixed inset-0 z-[80] hidden items-center justify-center p-0 md:p-6 bg-black/95 backdrop-blur-xl transition-opacity">
         <button onclick="closeProductDetail()" class="absolute top-4 right-4 md:top-8 md:right-8 text-gray-400 hover:text-white transition-colors text-5xl leading-none z-50 drop-shadow-lg">&times;</button>
@@ -314,6 +325,57 @@
 
         let currentDiscount = 0;
         let activePromoCode = '';
+
+        // POLICY DATA OBJECT
+        const policiesData = {
+            'privacy': {
+                title: 'Privacy Policy',
+                content: `
+                    <p class="mb-4">At Avesta x Ultra Unique, your privacy is our utmost priority. We are committed to protecting the personal information you share with us.</p>
+                    <p class="mb-4"><strong class="text-gold">Information Collection:</strong> We collect necessary details such as your name, email address, shipping address, and phone number solely to process your orders and enhance your shopping experience.</p>
+                    <p class="mb-4"><strong class="text-gold">Payment Security:</strong> All financial transactions are processed through highly secure, industry-standard encrypted gateways. We do not store or have direct access to your credit/debit card details.</p>
+                    <p>We strictly do not sell, rent, or trade your personal data to any third-party organizations.</p>
+                `
+            },
+            'terms': {
+                title: 'Terms of Service',
+                content: `
+                    <p class="mb-4">Welcome to Avesta x Ultra Unique. By accessing our website and purchasing our products, you agree to comply with our terms of service.</p>
+                    <p class="mb-4"><strong class="text-gold">VIP Passes & Promotional Codes:</strong> All promotional codes (e.g., LEGACY500) distributed via our marketing channels are strictly limited to <b>one use per customer</b>. A minimum cart value of ₹1,999 is required to apply these codes.</p>
+                    <p class="mb-4">We reserve the right to cancel any orders that attempt to exploit or misuse single-use promotional codes by bypassing our system tracking.</p>
+                    <p>All product prices are subject to change without prior notice. The content of this website is for your general information and use only.</p>
+                `
+            },
+            'return': {
+                title: 'Return & Refund Policy',
+                content: `
+                    <p class="mb-4"><strong class="text-gold">Avesta Luxury (Shoes & Watches):</strong> We offer a 7-day hassle-free return policy. Items must be completely unworn, in their original condition, and include all tags and premium packaging.</p>
+                    <p class="mb-4"><strong class="text-gold">Ultra Unique (Cleaning Supplies):</strong> Due to strict hygiene and safety standards, our cleaning products (wipers, brushes, spray bottles, etc.) are strictly <b>non-returnable</b> once the seal is broken or the product is used.</p>
+                    <p>Once your return is received and inspected at our Agra headquarters, refunds will be processed to your original payment method within 5-7 business days.</p>
+                `
+            },
+            'shipping': {
+                title: 'Shipping Information',
+                content: `
+                    <p class="mb-4"><strong class="text-gold">Complimentary Shipping:</strong> We are proud to offer 100% Free Premium Shipping across India on all orders totaling ₹1,999 and above.</p>
+                    <p class="mb-4"><strong class="text-gold">Delivery Timelines:</strong> Standard delivery usually takes 3-7 business days depending on your location. Avesta luxury watches and footwear are shipped via priority insured transit for maximum safety.</p>
+                    <p>Once your order is dispatched from our Agra Headquarters, you will receive a tracking link via email and SMS to monitor your package.</p>
+                `
+            }
+        };
+
+        // POLICY FUNCTIONS
+        function openPolicy(type) {
+            document.getElementById('policy-title').innerText = policiesData[type].title;
+            document.getElementById('policy-content').innerHTML = policiesData[type].content;
+            document.getElementById('policy-modal').classList.replace('hidden', 'flex');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closePolicy() {
+            document.getElementById('policy-modal').classList.replace('flex', 'hidden');
+            document.body.style.overflow = 'auto';
+        }
 
         function renderProducts() {
             const grid = document.getElementById('product-grid');
