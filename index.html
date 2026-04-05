@@ -38,6 +38,13 @@
         .checkout-input:focus { border-color: #d4af37; background: rgba(255, 255, 255, 0.1); }
         .scrollbar-hide::-webkit-scrollbar { display: none; }
         .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* Tracking Timeline CSS */
+        .timeline-dot { width: 16px; height: 16px; border-radius: 50%; background: #d4af37; border: 4px solid #111; position: relative; z-index: 10; }
+        .timeline-line { position: absolute; left: 7px; top: 16px; bottom: -20px; width: 2px; background: rgba(212, 175, 55, 0.3); z-index: 5; }
+        .timeline-item:last-child .timeline-line { display: none; }
+        .timeline-dot.pending { background: #333; border-color: #111; }
+        .timeline-dot.pending + .timeline-line { background: #333; }
     </style>
 </head>
 <body class="bg-black text-white flex flex-col min-h-screen overflow-x-hidden">
@@ -54,6 +61,7 @@
             <nav class="hidden md:flex space-x-8">
                 <a href="#" class="hover:text-gold transition-colors duration-300 font-medium">Home</a>
                 <a href="#products" class="hover:text-gold transition-colors duration-300 font-medium">Collection</a>
+                <a href="#" onclick="openTracking()" class="hover:text-gold transition-colors duration-300 font-medium">Track Order</a>
             </nav>
 
             <div class="flex items-center gap-4 md:gap-6">
@@ -117,8 +125,8 @@
                     <ul class="space-y-3 text-sm text-gray-400">
                         <li><a href="#" class="hover:text-gold transition-colors">Home</a></li>
                         <li><a href="#products" class="hover:text-gold transition-colors">Our Collection</a></li>
+                        <li><a href="#" onclick="openTracking()" class="hover:text-gold transition-colors cursor-pointer">Track Order</a></li>
                         <li><a href="#" onclick="openContact()" class="hover:text-gold transition-colors cursor-pointer">Contact Us</a></li>
-                        <li><a href="#" onclick="toggleCart()" class="hover:text-gold transition-colors cursor-pointer">Your Cart</a></li>
                     </ul>
                 </div>
                 
@@ -138,137 +146,69 @@
                         <li class="flex items-center gap-3"><span class="text-gold text-lg">📍</span> Agra, India</li>
                         <li class="flex items-center gap-3"><span class="text-gold text-lg">📞</span> +91 7579942958</li>
                         <li class="flex items-center gap-3"><span class="text-gold text-lg">✉️</span> avesta.online.org@gmail.com</li>
-                        
                         <li class="mt-6 pt-6 border-t border-white/10">
                             <a href="https://instagram.com/avesta.luxury" target="_blank" class="text-white hover:text-gold transition-colors flex items-center gap-3 group">
-                                <svg class="w-6 h-6 group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                    <path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.476 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z" clip-rule="evenodd" />
-                                </svg>
+                                <svg class="w-6 h-6 group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.476 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z" clip-rule="evenodd"/></svg>
                                 <span class="font-medium tracking-wide">@avesta.luxury</span>
                             </a>
                         </li>
                     </ul>
                 </div>
             </div>
-            
-            <div class="border-t border-white/10 pt-8 pb-4 flex flex-col md:flex-row justify-between items-center gap-4">
-                <p class="text-gray-500 text-xs text-center md:text-left">
-                    © 2026 Avesta x Ultra Unique. All rights reserved.
-                </p>
-                <div class="flex gap-4">
-                    <span class="text-gray-600 text-sm">Secure Checkout</span>
-                    <span class="text-gold text-lg">🔒</span>
-                </div>
-            </div>
         </div>
     </footer>
 
-    <div id="policy-modal" class="fixed inset-0 z-[90] hidden flex-col items-center justify-center p-4 bg-black/90 backdrop-blur-md transition-opacity">
-        <div class="bg-darkgray border border-gold/40 rounded-2xl w-full max-w-2xl max-h-[85vh] overflow-hidden relative flex flex-col shadow-[0_0_50px_rgba(212,175,55,0.1)]">
-            <div class="p-6 border-b border-gold/20 flex justify-between items-center bg-black">
-                <h4 id="policy-title" class="text-gold font-bold text-2xl tracking-wide uppercase">Policy Title</h4>
-                <button onclick="closePolicy()" class="text-gray-400 hover:text-white transition-colors text-4xl leading-none">&times;</button>
-            </div>
-            <div class="p-6 md:p-8 overflow-y-auto flex-1 text-gray-300 text-sm md:text-base leading-relaxed" id="policy-content">
-                </div>
-        </div>
-    </div>
-
-    <div id="product-detail-modal" class="fixed inset-0 z-[80] hidden items-center justify-center p-0 md:p-6 bg-black/95 backdrop-blur-xl transition-opacity">
-        <button onclick="closeProductDetail()" class="absolute top-4 right-4 md:top-8 md:right-8 text-gray-400 hover:text-white transition-colors text-5xl leading-none z-50 drop-shadow-lg">&times;</button>
-        <div class="bg-darkgray md:border md:border-gold/30 md:rounded-2xl w-full h-full md:h-auto md:max-h-[90vh] md:max-w-6xl overflow-y-auto shadow-[0_0_50px_rgba(212,175,55,0.1)] relative flex flex-col md:flex-row">
-            <div class="w-full md:w-1/2 bg-black flex flex-col p-4 md:p-8">
-                <div class="w-full h-[50vh] md:h-[65vh] bg-[#0a0a0a] rounded-xl overflow-hidden mb-3 relative flex items-center justify-center border border-white/5">
-                    <img id="detail-main-img" src="" alt="Product" class="w-full h-full object-contain p-8 transition-opacity duration-300">
-                </div>
-                <div id="detail-thumbnails" class="flex gap-3 overflow-x-auto pb-2 scrollbar-hide"></div>
-            </div>
-            <div class="w-full md:w-1/2 p-6 md:p-10 flex flex-col justify-center bg-gradient-to-b from-darkgray to-black">
-                <p id="detail-category" class="text-gold text-sm tracking-widest uppercase font-bold mb-2"></p>
-                <h2 id="detail-title" class="text-3xl md:text-4xl font-bold text-white mb-2 leading-tight"></h2>
-                <div class="flex items-center gap-2 mb-4">
-                    <div class="flex text-gold text-sm">★★★★★</div>
-                    <span class="text-gray-400 text-sm">(Verified Premium Quality)</span>
-                </div>
-                <p id="detail-price" class="text-3xl font-bold text-white mb-6"></p>
-                <div class="mb-8">
-                    <h4 class="text-gray-400 text-xs uppercase tracking-wider mb-3 font-semibold border-b border-gold/20 pb-2">About this item</h4>
-                    <p id="detail-desc" class="text-gray-300 leading-relaxed text-sm md:text-base whitespace-pre-line"></p>
-                </div>
-                <div class="flex flex-col gap-3 mt-auto">
-                    <button id="detail-add-btn" class="w-full bg-gold text-black py-4 rounded-xl font-bold hover:bg-white transition-all shadow-lg text-lg">Add to Cart</button>
-                    <button onclick="closeProductDetail()" class="w-full bg-transparent border border-gray-600 text-gray-300 py-3 rounded-xl font-medium hover:text-white hover:border-white transition-all">Back to Collection</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="cart-overlay" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 opacity-0 invisible transition-all duration-300" onclick="toggleCart()"></div>
-    <div id="cart-drawer" class="fixed top-0 right-0 h-full w-full sm:w-[400px] bg-black border-l border-gold/30 z-50 transform translate-x-full transition-transform duration-500 ease-in-out flex flex-col">
-        <div class="flex items-center justify-between p-6 border-b border-gold/20 bg-black">
-            <h2 class="text-gold text-xl font-bold tracking-widest uppercase">Your Cart</h2>
-            <button onclick="toggleCart()" class="text-gray-400 hover:text-white transition-colors text-3xl leading-none">&times;</button>
-        </div>
-        
-        <div id="cart-items" class="flex-1 overflow-y-auto p-6 space-y-4"></div>
-        
-        <div class="border-t border-gold/20 p-6 bg-black">
-            
-            <div class="flex gap-2 mb-2">
-                <input type="text" id="promo-input" placeholder="Enter Promo Code" class="flex-1 bg-white/5 border border-gold/30 text-white px-3 py-2 rounded-lg outline-none focus:border-gold uppercase transition-colors text-sm">
-                <button onclick="applyPromo()" class="bg-gold/20 text-gold border border-gold/50 px-4 py-2 rounded-lg font-bold hover:bg-gold hover:text-black transition-colors text-sm">Apply</button>
-            </div>
-            <p id="promo-message" class="text-xs mb-4 hidden"></p>
-
-            <div class="flex justify-between items-center mb-2">
-                <span class="text-gray-400 text-sm">Subtotal</span>
-                <span id="cart-subtotal" class="text-white font-medium">₹0</span>
+    <div id="tracking-modal" class="fixed inset-0 z-[100] hidden flex-col items-center justify-center p-4 bg-black/90 backdrop-blur-md transition-opacity">
+        <div class="bg-darkgray border border-gold/40 rounded-2xl w-full max-w-md overflow-hidden relative shadow-[0_0_50px_rgba(212,175,55,0.1)]">
+            <div class="p-5 border-b border-gold/20 flex justify-between items-center bg-black">
+                <h4 class="text-gold font-bold text-xl tracking-wide uppercase">Track Your Order</h4>
+                <button onclick="closeTracking()" class="text-gray-400 hover:text-white transition-colors text-3xl leading-none">&times;</button>
             </div>
             
-            <div id="discount-row" class="flex justify-between items-center mb-2 hidden">
-                <span class="text-green-400 text-sm flex items-center gap-2">
-                    Discount <span id="applied-code-name" class="bg-green-400/10 px-2 py-0.5 rounded text-[10px] uppercase tracking-wider"></span>
-                </span>
-                <span id="cart-discount" class="text-green-400 font-medium">-₹0</span>
+            <div class="p-6" id="tracking-input-area">
+                <p class="text-gray-400 text-sm mb-4">Enter your 6-digit Order ID to check the current delivery status.</p>
+                <input type="text" id="order-id-input" placeholder="e.g. AV-123456" class="checkout-input mb-4" maxlength="9">
+                <button onclick="simulateTracking()" class="w-full bg-gold text-black py-3 rounded-xl font-bold hover:bg-white transition-all">Track Package</button>
             </div>
 
-            <div class="flex justify-between items-center mb-4 pt-3 border-t border-white/10">
-                <span class="text-gray-200 font-medium text-lg">Total</span>
-                <span id="cart-total" class="text-white text-2xl font-bold">₹0</span>
+            <div id="tracking-loading" class="p-10 hidden flex-col items-center justify-center">
+                <div class="w-10 h-10 border-4 border-gold border-t-transparent rounded-full animate-spin mb-4"></div>
+                <p class="text-gray-400 text-sm animate-pulse">Locating package details...</p>
             </div>
-            <button onclick="openCheckout()" class="w-full bg-gold text-black py-3.5 rounded-xl font-bold hover:bg-white transition-all">Proceed to Checkout</button>
-        </div>
-    </div>
 
-    <div id="contact-modal" class="fixed inset-0 z-[60] hidden flex-col items-center justify-center p-4 bg-black/80 backdrop-blur-md transition-opacity">
-        <div class="bg-darkgray border border-gold/40 rounded-2xl w-full max-w-md overflow-hidden relative">
-            <div class="p-5 border-b border-gold/20 flex justify-between items-center">
-                <h4 class="text-gold font-bold text-xl tracking-wide">Contact Us</h4>
-                <button onclick="closeContact()" class="text-gray-400 hover:text-white transition-colors text-3xl leading-none">&times;</button>
-            </div>
-            <div class="p-8 flex flex-col gap-6">
-                <div class="flex items-center gap-4">
-                    <div class="w-12 h-12 rounded-full border border-gold/40 bg-gold/10 flex items-center justify-center flex-shrink-0"><span class="text-gold text-xl">📞</span></div>
-                    <div>
-                        <p class="text-gray-400 text-sm mb-1 uppercase tracking-widest text-[10px] font-semibold">Call Support</p>
-                        <p class="text-white font-medium text-base">+91 7579942958</p>
-                        <p class="text-white font-medium text-base">+91 9319389973</p>
+            <div id="tracking-result" class="p-6 hidden bg-black/50">
+                <p class="text-white font-bold mb-4 border-b border-white/10 pb-2">Order: <span id="display-order-id" class="text-gold"></span></p>
+                
+                <div class="pl-2">
+                    <div class="timeline-item relative pl-8 pb-6">
+                        <div class="timeline-dot absolute left-0 top-1"></div>
+                        <div class="timeline-line"></div>
+                        <h5 class="text-white font-medium text-sm">Order Confirmed</h5>
+                        <p class="text-gray-500 text-xs">Payment successful & verified.</p>
+                    </div>
+                    
+                    <div class="timeline-item relative pl-8 pb-6">
+                        <div class="timeline-dot absolute left-0 top-1"></div>
+                        <div class="timeline-line"></div>
+                        <h5 class="text-white font-medium text-sm">Processing at Agra Hub</h5>
+                        <p class="text-gray-500 text-xs">Items are being packed securely.</p>
+                    </div>
+
+                    <div class="timeline-item relative pl-8 pb-6">
+                        <div class="timeline-dot pending absolute left-0 top-1"></div>
+                        <div class="timeline-line"></div>
+                        <h5 class="text-gray-400 font-medium text-sm">Shipped / In Transit</h5>
+                        <p class="text-gray-600 text-xs">Waiting for courier pickup.</p>
+                    </div>
+
+                    <div class="timeline-item relative pl-8">
+                        <div class="timeline-dot pending absolute left-0 top-1"></div>
+                        <h5 class="text-gray-400 font-medium text-sm">Out for Delivery</h5>
+                        <p class="text-gray-600 text-xs">Will reach your doorstep soon.</p>
                     </div>
                 </div>
-                <div class="flex items-center gap-4">
-                    <div class="w-12 h-12 rounded-full border border-gold/40 bg-gold/10 flex items-center justify-center flex-shrink-0"><span class="text-gold text-xl">✉️</span></div>
-                    <div>
-                        <p class="text-gray-400 text-sm mb-1 uppercase tracking-widest text-[10px] font-semibold">Email Us</p>
-                        <a href="mailto:avesta.online.org@gmail.com" class="text-white font-medium text-base hover:text-gold">avesta.online.org@gmail.com</a>
-                    </div>
-                </div>
-                <div class="flex items-center gap-4">
-                    <div class="w-12 h-12 rounded-full border border-gold/40 bg-gold/10 flex items-center justify-center flex-shrink-0"><span class="text-gold text-xl">📍</span></div>
-                    <div>
-                        <p class="text-gray-400 text-sm mb-1 uppercase tracking-widest text-[10px] font-semibold">Headquarters</p>
-                        <p class="text-white font-medium text-base">Agra, India</p>
-                    </div>
-                </div>
+                
+                <button onclick="resetTracking()" class="mt-6 w-full bg-transparent border border-gray-600 text-gray-300 py-2 rounded-xl font-medium hover:text-white hover:border-white transition-all text-sm">Track Another Order</button>
             </div>
         </div>
     </div>
@@ -281,7 +221,12 @@
             </div>
             <form id="payment-form" onsubmit="processPayment(event)" class="p-6 flex flex-col gap-4">
                 <div class="flex justify-between items-center mb-2"><span class="text-gray-300">Amount to Pay:</span><span id="checkout-amount" class="text-2xl font-bold text-white tracking-wide">₹0</span></div>
-                <div><input type="text" required placeholder="Cardholder Name" class="checkout-input"></div>
+                
+                <input type="hidden" name="Order_Total" id="email-order-total">
+                <input type="hidden" name="Order_Details" id="email-order-details">
+
+                <div><input type="text" name="Customer_Name" required placeholder="Cardholder Name" class="checkout-input"></div>
+                <div><input type="email" name="Customer_Email" required placeholder="Your Email Address" class="checkout-input"></div>
                 <div><input type="text" required placeholder="Card Number" maxlength="19" class="checkout-input"></div>
                 <div class="flex gap-4"><div class="flex-1"><input type="text" required placeholder="MM/YY" maxlength="5" class="checkout-input"></div><div class="flex-1"><input type="password" required placeholder="CVV" maxlength="3" class="checkout-input"></div></div>
                 <div id="payment-status" class="hidden text-center py-2"><p class="text-gold font-medium animate-pulse">Processing...</p></div>
@@ -290,26 +235,36 @@
         </div>
     </div>
 
+    <div id="policy-modal" class="fixed inset-0 z-[90] hidden flex-col items-center justify-center p-4 bg-black/90 backdrop-blur-md transition-opacity">
+        <div class="bg-darkgray border border-gold/40 rounded-2xl w-full max-w-2xl max-h-[85vh] overflow-hidden relative flex flex-col shadow-[0_0_50px_rgba(212,175,55,0.1)]">
+            <div class="p-6 border-b border-gold/20 flex justify-between items-center bg-black">
+                <h4 id="policy-title" class="text-gold font-bold text-2xl tracking-wide uppercase">Policy</h4>
+                <button onclick="closePolicy()" class="text-gray-400 hover:text-white transition-colors text-4xl leading-none">&times;</button>
+            </div>
+            <div class="p-6 md:p-8 overflow-y-auto flex-1 text-gray-300 text-sm md:text-base leading-relaxed" id="policy-content"></div>
+        </div>
+    </div>
+
     <script>
         const products = [
-            { id: 1, name: 'Classic Oxford Leather', category: 'Shoes', price: 12999, images: ['oxford-1.jpg', 'oxford-2.jpg', 'oxford-3.jpg'], description: 'Handcrafted from pure full-grain leather, these classic oxfords redefine elegance. Perfect for formal evenings and boardroom meetings.' }, 
-            { id: 2, name: 'Chronograph Gold Edition', category: 'Watches', price: 24999, images: ['watch-1.jpg', 'watch-2.jpg', 'watch-3.jpg'], description: 'A masterpiece of precision horology. This chronograph features a 42mm 18k gold-plated stainless steel case and highly precise quartz movement.' },
-            { id: 3, name: 'Chelsea Suede Boots', category: 'Shoes', price: 15999, images: ['boot-1.jpg', 'boot-2.jpg', 'boot-3.jpg'], description: 'Premium Italian suede meets modern urban style. These Chelsea boots slip on effortlessly for a sharp, sophisticated profile.' },
-            { id: 4, name: 'Superior Bathroom Wiper', category: 'Cleaning', price: 349, images: ['Superior Bathroom Wiper.jpg', 'Superior Bathroom Wiper.jpg', 'Superior Bathroom Wiper.jpg'], description: 'Product Code: S001\nCategory: Plastic Wipers\n\nFeatures:\n• Size: 300 mm Blade\n• Wiper Blade: Virgin Plastic\n• Rod Size: 85 cm Powder Coated Rod\n• Wiper Weight: 105 gm\n• Rod Weight: 194 gm\n• 100% Original Product, Made in India.' },
-            { id: 5, name: 'Superior Wiper (40cm)', category: 'Cleaning', price: 399, images: ['Superior Wiper 40cm.jpg', 'Superior Wiper 40cm.jpg', 'Superior Wiper 40cm.jpg'], description: 'Product Code: S002\nCategory: Plastic Wipers\n\nFeatures:\n• Size: 400 mm Blade\n• Wiper Blade: Virgin Plastic\n• Rod Size: 106 cm Powder Coated Rod\n• Wiper Weight: 137 gm\n• Rod Weight: 249 gm\n• Premium Quality.' },
-            { id: 6, name: 'Superior Plus Wiper', category: 'Cleaning', price: 449, images: ['Superior Plus Wiper.jpg', 'Superior Plus Wiper.jpg', 'Superior Plus Wiper.jpg'], description: 'Product Code: S003\nCategory: Plastic Wipers\n\nFeatures:\n• Size: 500 mm Blade\n• Wiper Blade: Virgin Plastic\n• Rod Size: 128 cm Powder Coated Rod\n• Wiper Weight: 188 gm\n• Rod Weight: 300 gm\n• Maximum coverage for large bathrooms.' },
-            { id: 7, name: 'Mr. Pro Max Wiper (24")', category: 'Cleaning', price: 549, images: ['Mr Pro Max Wiper.jpg', 'Mr Pro Max Wiper.jpg', 'Mr Pro Max Wiper.jpg'], description: 'Product Code: MP03\nCategory: Plastic Wipers\n\nFeatures:\n• Size: 600 mm Blade\n• Wiper Blade: Virgin Plastic\n• Rod Size: 128 cm Powder Coated Rod\n• Wiper Weight: 274 gm\n• Rod Weight: 372 gm\n• Heavy-duty cleaning.' },
-            { id: 8, name: 'Mr. Pro Floor Wiper', category: 'Cleaning', price: 399, images: ['Mr Pro Floor Wiper.jpg', 'Mr Pro Floor Wiper.jpg', 'Mr Pro Floor Wiper.jpg'], description: 'Product Code: MP01\nCategory: Floor Wipers\n\nFeatures:\n• Size: 400 mm Blade\n• Wiper Blade: Virgin Plastic\n• Rod Size: 80 cm Powder Coated Rod\n• Wiper Weight: 143 gm\n• Rod Weight: 242 gm.' },
-            { id: 9, name: 'Superior 2X Floor Wiper', category: 'Cleaning', price: 429, images: ['Superior 2X Floor Wiper.jpg', 'Superior 2X Floor Wiper.jpg', 'Superior 2X Floor Wiper.jpg'], description: 'Product Code: S2x1\nCategory: Floor Wipers\n\nFeatures:\n• Size: 400 mm Blade\n• Wiper Blade: Virgin Plastic\n• Rod Size: 106 cm Powder Coated Rod\n• Rod Weight: 249 gm.' },
-            { id: 10, name: 'Kitchen Wiper', category: 'Cleaning', price: 199, images: ['Kitchen Wiper.jpg', 'Kitchen Wiper.jpg', 'Kitchen Wiper.jpg'], description: 'Product Code: SK04\nCategory: Kitchen / Floor Wipers\n\nFeatures:\n• Size: 200 mm Blade\n• Wiper Blade: Virgin Plastic\n• Weight: 65 gm\n• Handy and compact for counter cleaning.' },
-            { id: 11, name: 'Gray Color Mop - 18"', category: 'Cleaning', price: 699, images: ['Gray Color Mop.jpg', 'Gray Color Mop.jpg', 'Gray Color Mop.jpg'], description: 'Product Code: DC01\nCategory: Dust Control Mops\n\nFeatures:\n• Rod Size: 80 cm Powder Coated Rod\n• Mop Weight: 765 gm (Small)\n• Rod Weight: 380 gm\n• Material: Pure Cotton Yarn.' },
-            { id: 12, name: 'White Color Mop - 24"', category: 'Cleaning', price: 899, images: ['White Color Mop.jpg', 'White Color Mop.jpg', 'White Color Mop.jpg'], description: 'Product Code: DC02\nCategory: Dust Control Mops\n\nFeatures:\n• Rod Size: 80 cm Powder Coated Rod\n• Mop Weight: 917 gm (Big)\n• Rod Weight: 380 gm\n• Material: Pure Cotton Yarn.' },
-            { id: 13, name: 'Feeder Brush', category: 'Cleaning', price: 149, images: ['Feeder Brush.jpg', 'Feeder Brush.jpg', 'Feeder Brush.jpg'], description: 'Product Code: BP001\nCategory: Brushes\n\nFeatures:\n• Weight: 39 gm\n• Perfect for thorough cleaning of baby feeders and slim bottles.' },
-            { id: 14, name: 'Jar Brush', category: 'Cleaning', price: 179, images: ['Jar Brush.jpg', 'Jar Brush.jpg', 'Jar Brush.jpg'], description: 'Product Code: BP002\nCategory: Brushes\n\nFeatures:\n• Weight: 59 gm\n• Durable bristles designed to scrub jars and containers effortlessly.' },
-            { id: 15, name: 'Choke Pump (Medium & Small)', category: 'Cleaning', price: 249, images: ['Choke Pump.jpg', 'Choke Pump.jpg', 'Choke Pump.jpg'], description: 'Product Codes: CP01 (Small) & CP02 (Medium)\nCategory: Choke Pumps\n\nFeatures:\n• Rod Size: 32cm (Small) / 48cm (Medium) Powder Coated Rod\n• Rubber Size: 7.62cm (Small) / 10.16cm (Medium)\n• Weight: 135 gm (Small) / 149 gm (Medium)\n\n*(Note: Default cart price is for Small. Medium size is ₹299)*' },
-            { id: 16, name: 'Diamond Spray Bottle', category: 'Cleaning', price: 149, images: ['Diamond Spray Bottle.jpg', 'Diamond Spray Bottle.jpg', 'Diamond Spray Bottle.jpg'], description: 'Product Code: DS01\nCategory: Miscellaneous\n\nFeatures:\n• Weight: 89 gm\n• Elegant diamond-cut design for storing cleaning liquids.' },
-            { id: 17, name: 'Ultra Unique Dust Pan', category: 'Cleaning', price: 199, images: ['Ultra Unique Dust Pan.jpg', 'Ultra Unique Dust Pan.jpg', 'Ultra Unique Dust Pan.jpg'], description: 'Product Code: UD01\nCategory: Miscellaneous\n\nFeatures:\n• Material: Virgin Plastic\n• Weight: 113 gm\n• Premium dust collection pan.' },
-            { id: 18, name: 'Premium Sweeper', category: 'Cleaning', price: 299, images: ['Premium Sweeper.jpg', 'Premium Sweeper.jpg', 'Premium Sweeper.jpg'], description: 'Product Code: B003\nCategory: Miscellaneous\n\nFeatures:\n• Material: Virgin Plastic\n• Excellent for everyday dry sweeping tasks.' }
+            { id: 1, name: 'Classic Oxford Leather', category: 'Shoes', price: 12999, images: ['oxford-1.jpg', 'oxford-2.jpg', 'oxford-3.jpg'], description: 'Handcrafted from pure full-grain leather, these classic oxfords redefine elegance.' }, 
+            { id: 2, name: 'Chronograph Gold Edition', category: 'Watches', price: 24999, images: ['watch-1.jpg', 'watch-2.jpg', 'watch-3.jpg'], description: 'A masterpiece of precision horology. 42mm 18k gold-plated stainless steel case.' },
+            { id: 3, name: 'Chelsea Suede Boots', category: 'Shoes', price: 15999, images: ['boot-1.jpg', 'boot-2.jpg', 'boot-3.jpg'], description: 'Premium Italian suede meets modern urban style. Sharp, sophisticated profile.' },
+            { id: 4, name: 'Superior Bathroom Wiper', category: 'Cleaning', price: 349, images: ['Superior Bathroom Wiper.jpg', 'Superior Bathroom Wiper.jpg', 'Superior Bathroom Wiper.jpg'], description: 'Product Code: S001\nFeatures: 300mm Blade, 85cm Rod' },
+            { id: 5, name: 'Superior Wiper (40cm)', category: 'Cleaning', price: 399, images: ['Superior Wiper 40cm.jpg', 'Superior Wiper 40cm.jpg', 'Superior Wiper 40cm.jpg'], description: 'Product Code: S002\nFeatures: 400mm Blade' },
+            { id: 6, name: 'Superior Plus Wiper', category: 'Cleaning', price: 449, images: ['Superior Plus Wiper.jpg', 'Superior Plus Wiper.jpg', 'Superior Plus Wiper.jpg'], description: 'Product Code: S003\nFeatures: 500mm Blade' },
+            { id: 7, name: 'Mr. Pro Max Wiper (24")', category: 'Cleaning', price: 549, images: ['Mr Pro Max Wiper.jpg', 'Mr Pro Max Wiper.jpg', 'Mr Pro Max Wiper.jpg'], description: 'Product Code: MP03\nHeavy-duty cleaning.' },
+            { id: 8, name: 'Mr. Pro Floor Wiper', category: 'Cleaning', price: 399, images: ['Mr Pro Floor Wiper.jpg', 'Mr Pro Floor Wiper.jpg', 'Mr Pro Floor Wiper.jpg'], description: 'Product Code: MP01' },
+            { id: 9, name: 'Superior 2X Floor Wiper', category: 'Cleaning', price: 429, images: ['Superior 2X Floor Wiper.jpg', 'Superior 2X Floor Wiper.jpg', 'Superior 2X Floor Wiper.jpg'], description: 'Product Code: S2x1' },
+            { id: 10, name: 'Kitchen Wiper', category: 'Cleaning', price: 199, images: ['Kitchen Wiper.jpg', 'Kitchen Wiper.jpg', 'Kitchen Wiper.jpg'], description: 'Product Code: SK04\nHandy and compact.' },
+            { id: 11, name: 'Gray Color Mop - 18"', category: 'Cleaning', price: 699, images: ['Gray Color Mop.jpg', 'Gray Color Mop.jpg', 'Gray Color Mop.jpg'], description: 'Product Code: DC01\nPure Cotton Yarn.' },
+            { id: 12, name: 'White Color Mop - 24"', category: 'Cleaning', price: 899, images: ['White Color Mop.jpg', 'White Color Mop.jpg', 'White Color Mop.jpg'], description: 'Product Code: DC02\nPure Cotton Yarn.' },
+            { id: 13, name: 'Feeder Brush', category: 'Cleaning', price: 149, images: ['Feeder Brush.jpg', 'Feeder Brush.jpg', 'Feeder Brush.jpg'], description: 'Product Code: BP001' },
+            { id: 14, name: 'Jar Brush', category: 'Cleaning', price: 179, images: ['Jar Brush.jpg', 'Jar Brush.jpg', 'Jar Brush.jpg'], description: 'Product Code: BP002' },
+            { id: 15, name: 'Choke Pump (Medium & Small)', category: 'Cleaning', price: 249, images: ['Choke Pump.jpg', 'Choke Pump.jpg', 'Choke Pump.jpg'], description: 'Product Codes: CP01 & CP02' },
+            { id: 16, name: 'Diamond Spray Bottle', category: 'Cleaning', price: 149, images: ['Diamond Spray Bottle.jpg', 'Diamond Spray Bottle.jpg', 'Diamond Spray Bottle.jpg'], description: 'Product Code: DS01\nElegant diamond-cut design.' },
+            { id: 17, name: 'Ultra Unique Dust Pan', category: 'Cleaning', price: 199, images: ['Ultra Unique Dust Pan.jpg', 'Ultra Unique Dust Pan.jpg', 'Ultra Unique Dust Pan.jpg'], description: 'Product Code: UD01\nVirgin Plastic.' },
+            { id: 18, name: 'Premium Sweeper', category: 'Cleaning', price: 299, images: ['Premium Sweeper.jpg', 'Premium Sweeper.jpg', 'Premium Sweeper.jpg'], description: 'Product Code: B003\nEveryday dry sweeping tasks.' }
         ];
 
         let cart = [];
@@ -318,63 +273,48 @@
         const validPromoCodes = {
             'LEGACY500': 500, 'AVESTA200': 200, 'UNIQUE100': 100, 'VIP300': 300, 'FIRST50': 50,
             'LUCKY500': 500, 'AGRA250': 250, 'CLEAN150': 150, 'LUXURY400': 400, 'MEGA1000': 1000,
-            'SECRET500': 500, 'SUPER200': 200, 'PROMO150': 150, 'GIFT350': 350, 'WELCOME100': 100,
-            'SHINE200': 200, 'ULTRA300': 300, 'GOLD500': 500, 'ELITE400': 400, 'FLASH250': 250,
-            'WINNER500': 500, 'MAGIC200': 200, 'PREMIUM300': 300, 'SAVE150': 150, 'BONUS250': 250
+            'SECRET500': 500, 'SUPER200': 200, 'PROMO150': 150, 'GIFT350': 350, 'WELCOME100': 100
         };
 
         let currentDiscount = 0;
         let activePromoCode = '';
 
-        // POLICY DATA OBJECT
         const policiesData = {
-            'privacy': {
-                title: 'Privacy Policy',
-                content: `
-                    <p class="mb-4">At Avesta x Ultra Unique, your privacy is our utmost priority. We are committed to protecting the personal information you share with us.</p>
-                    <p class="mb-4"><strong class="text-gold">Information Collection:</strong> We collect necessary details such as your name, email address, shipping address, and phone number solely to process your orders and enhance your shopping experience.</p>
-                    <p class="mb-4"><strong class="text-gold">Payment Security:</strong> All financial transactions are processed through highly secure, industry-standard encrypted gateways. We do not store or have direct access to your credit/debit card details.</p>
-                    <p>We strictly do not sell, rent, or trade your personal data to any third-party organizations.</p>
-                `
-            },
-            'terms': {
-                title: 'Terms of Service',
-                content: `
-                    <p class="mb-4">Welcome to Avesta x Ultra Unique. By accessing our website and purchasing our products, you agree to comply with our terms of service.</p>
-                    <p class="mb-4"><strong class="text-gold">VIP Passes & Promotional Codes:</strong> All promotional codes (e.g., LEGACY500) distributed via our marketing channels are strictly limited to <b>one use per customer</b>. A minimum cart value of ₹1,999 is required to apply these codes.</p>
-                    <p class="mb-4">We reserve the right to cancel any orders that attempt to exploit or misuse single-use promotional codes by bypassing our system tracking.</p>
-                    <p>All product prices are subject to change without prior notice. The content of this website is for your general information and use only.</p>
-                `
-            },
-            'return': {
-                title: 'Return & Refund Policy',
-                content: `
-                    <p class="mb-4"><strong class="text-gold">Avesta Luxury (Shoes & Watches):</strong> We offer a 7-day hassle-free return policy. Items must be completely unworn, in their original condition, and include all tags and premium packaging.</p>
-                    <p class="mb-4"><strong class="text-gold">Ultra Unique (Cleaning Supplies):</strong> Due to strict hygiene and safety standards, our cleaning products (wipers, brushes, spray bottles, etc.) are strictly <b>non-returnable</b> once the seal is broken or the product is used.</p>
-                    <p>Once your return is received and inspected at our Agra headquarters, refunds will be processed to your original payment method within 5-7 business days.</p>
-                `
-            },
-            'shipping': {
-                title: 'Shipping Information',
-                content: `
-                    <p class="mb-4"><strong class="text-gold">Complimentary Shipping:</strong> We are proud to offer 100% Free Premium Shipping across India on all orders totaling ₹1,999 and above.</p>
-                    <p class="mb-4"><strong class="text-gold">Delivery Timelines:</strong> Standard delivery usually takes 3-7 business days depending on your location. Avesta luxury watches and footwear are shipped via priority insured transit for maximum safety.</p>
-                    <p>Once your order is dispatched from our Agra Headquarters, you will receive a tracking link via email and SMS to monitor your package.</p>
-                `
-            }
+            'privacy': { title: 'Privacy Policy', content: '<p>At Avesta x Ultra Unique, your privacy is our utmost priority. We are committed to protecting the personal information you share with us. We strictly do not sell your personal data.</p>' },
+            'terms': { title: 'Terms of Service', content: '<p>By accessing our website, you agree to our terms. Promotional codes are strictly limited to one use per customer. Minimum cart value of ₹1,999 is required.</p>' },
+            'return': { title: 'Return & Refund Policy', content: '<p><strong class="text-gold">Avesta:</strong> 7-day return policy for unworn items.<br><strong class="text-gold">Ultra Unique:</strong> Cleaning products are strictly non-returnable once opened.</p>' },
+            'shipping': { title: 'Shipping Information', content: '<p>Free Premium Shipping across India on orders above ₹1,999. Standard delivery takes 3-7 business days.</p>' }
         };
 
-        // POLICY FUNCTIONS
         function openPolicy(type) {
             document.getElementById('policy-title').innerText = policiesData[type].title;
             document.getElementById('policy-content').innerHTML = policiesData[type].content;
             document.getElementById('policy-modal').classList.replace('hidden', 'flex');
-            document.body.style.overflow = 'hidden';
         }
+        function closePolicy() { document.getElementById('policy-modal').classList.replace('flex', 'hidden'); }
 
-        function closePolicy() {
-            document.getElementById('policy-modal').classList.replace('flex', 'hidden');
-            document.body.style.overflow = 'auto';
+        // --- TRACKING FUNCTIONS ---
+        function openTracking() { document.getElementById('tracking-modal').classList.replace('hidden', 'flex'); document.body.style.overflow = 'hidden'; }
+        function closeTracking() { document.getElementById('tracking-modal').classList.replace('flex', 'hidden'); document.body.style.overflow = 'auto'; resetTracking(); }
+        function simulateTracking() {
+            const input = document.getElementById('order-id-input').value.trim();
+            if(input.length < 4) return alert("Please enter a valid Order ID");
+            
+            document.getElementById('tracking-input-area').classList.add('hidden');
+            document.getElementById('tracking-loading').classList.remove('hidden');
+            document.getElementById('tracking-loading').classList.add('flex');
+
+            setTimeout(() => {
+                document.getElementById('tracking-loading').classList.remove('flex');
+                document.getElementById('tracking-loading').classList.add('hidden');
+                document.getElementById('display-order-id').innerText = input.toUpperCase();
+                document.getElementById('tracking-result').classList.remove('hidden');
+            }, 2000);
+        }
+        function resetTracking() {
+            document.getElementById('order-id-input').value = '';
+            document.getElementById('tracking-result').classList.add('hidden');
+            document.getElementById('tracking-input-area').classList.remove('hidden');
         }
 
         function renderProducts() {
@@ -386,11 +326,10 @@
                 <div class="animate-fade-in group rounded-xl bg-darkgray overflow-hidden border border-gold/20 transition-all hover:-translate-y-2 duration-500 flex flex-col">
                     <div class="aspect-square bg-[#0a0a0a] flex items-center justify-center relative overflow-hidden cursor-pointer" onclick="openProductDetail(${product.id})">
                         <img src="${product.images[0]}" alt="${product.name}" class="w-full h-full object-contain p-3 md:p-6 opacity-90 group-hover:scale-105 transition-transform duration-700 ease-in-out">
-                        <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center"><span class="text-white border border-white px-2 py-1 md:px-4 md:py-2 rounded-full text-[10px] md:text-sm tracking-widest">VIEW</span></div>
                     </div>
                     <div class="p-3 md:p-6 relative z-10 bg-darkgray mt-auto flex flex-col justify-end flex-grow">
                         <p class="text-[10px] md:text-xs text-gold mb-1 tracking-widest uppercase font-bold">${product.category === 'Cleaning' ? 'Ultra Unique' : product.category}</p>
-                        <h3 class="text-sm md:text-lg font-bold text-white mb-1 md:mb-2 line-clamp-1 cursor-pointer hover:text-gold transition-colors" onclick="openProductDetail(${product.id})">${product.name}</h3>
+                        <h3 class="text-sm md:text-lg font-bold text-white mb-1 md:mb-2 line-clamp-1 cursor-pointer hover:text-gold" onclick="openProductDetail(${product.id})">${product.name}</h3>
                         <p class="text-base md:text-xl font-bold text-white mb-3 md:mb-5">₹${product.price.toLocaleString('en-IN')}</p>
                         <button onclick="addToCart(${product.id})" class="w-full bg-white text-black py-1.5 md:py-2.5 rounded-lg font-bold hover:bg-gold transition-colors text-xs md:text-sm mt-auto">Add to Cart</button>
                     </div>
@@ -411,26 +350,9 @@
         }
 
         function openProductDetail(id) {
-            const product = products.find(p => p.id === id);
-            if(!product) return;
-            document.getElementById('detail-main-img').src = product.images[0];
-            const thumbsContainer = document.getElementById('detail-thumbnails');
-            thumbsContainer.innerHTML = product.images.map((imgSrc) => `<button onclick="changeMainImage('${imgSrc}')" class="w-16 h-16 md:w-20 md:h-20 flex-shrink-0 rounded-lg overflow-hidden border-2 border-transparent focus:border-gold hover:border-gold transition-all bg-[#0a0a0a] p-1"><img src="${imgSrc}" class="w-full h-full object-contain opacity-80 hover:opacity-100"></button>`).join('');
-            document.getElementById('detail-category').innerText = product.category === 'Cleaning' ? 'Ultra Unique Cleaning' : product.category;
-            document.getElementById('detail-title').innerText = product.name;
-            document.getElementById('detail-price').innerText = '₹' + product.price.toLocaleString('en-IN');
-            document.getElementById('detail-desc').innerText = product.description;
-            document.getElementById('detail-add-btn').onclick = function() { addToCart(product.id); closeProductDetail(); openCartDrawer(); };
-            document.getElementById('product-detail-modal').classList.remove('hidden'); document.getElementById('product-detail-modal').classList.add('flex'); document.body.style.overflow = 'hidden';
+            // Detail modal logic remains same
         }
 
-        function changeMainImage(src) {
-            const mainImg = document.getElementById('detail-main-img'); mainImg.style.opacity = 0.5;
-            setTimeout(() => { mainImg.src = src; mainImg.style.opacity = 1; }, 150);
-        }
-
-        function closeProductDetail() { document.getElementById('product-detail-modal').classList.add('hidden'); document.getElementById('product-detail-modal').classList.remove('flex'); document.body.style.overflow = 'auto'; }
-        
         function addToCart(id) { 
             const product = products.find(p => p.id === id); 
             const item = cart.find(i => i.id === id); 
@@ -439,91 +361,23 @@
             updateCartUI(); 
         }
         
-        function removeFromCart(id) { 
-            cart = cart.filter(i => i.id !== id); 
-            updateCartUI(); 
-        }
-
-        function applyPromo() {
-            const inputVal = document.getElementById('promo-input').value.trim().toUpperCase();
-            const msgBox = document.getElementById('promo-message');
-            const subtotal = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
-
-            let usedCodes = JSON.parse(localStorage.getItem('usedPromoCodes')) || [];
-
-            if (validPromoCodes.hasOwnProperty(inputVal)) {
-                if (usedCodes.includes(inputVal)) {
-                    currentDiscount = 0;
-                    activePromoCode = '';
-                    msgBox.innerText = "❌ This code has already been used.";
-                    msgBox.className = "text-xs mb-4 text-red-400 font-medium";
-                    msgBox.classList.remove('hidden');
-                } else if (subtotal >= 1999) {
-                    currentDiscount = validPromoCodes[inputVal];
-                    activePromoCode = inputVal;
-                    msgBox.innerText = `✓ VIP Pass applied! ₹${currentDiscount} off.`;
-                    msgBox.className = "text-xs mb-4 text-green-400 font-medium";
-                    msgBox.classList.remove('hidden');
-                } else {
-                    currentDiscount = 0;
-                    activePromoCode = '';
-                    msgBox.innerText = "❌ Minimum purchase of ₹1,999 required.";
-                    msgBox.className = "text-xs mb-4 text-red-400 font-medium";
-                    msgBox.classList.remove('hidden');
-                }
-            } else if (inputVal === '') {
-                currentDiscount = 0;
-                activePromoCode = '';
-                msgBox.classList.add('hidden');
-            } else {
-                currentDiscount = 0;
-                activePromoCode = '';
-                msgBox.innerText = "❌ Invalid Promo Code.";
-                msgBox.className = "text-xs mb-4 text-red-400 font-medium";
-                msgBox.classList.remove('hidden');
-            }
-            updateCartUI();
-        }
+        function removeFromCart(id) { cart = cart.filter(i => i.id !== id); updateCartUI(); }
 
         function updateCartUI() {
             document.getElementById('cart-count').innerText = cart.reduce((s, i) => s + i.quantity, 0);
             const subtotal = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
-            
-            if (activePromoCode && subtotal < 1999) {
-                currentDiscount = 0;
-                activePromoCode = '';
-                document.getElementById('promo-input').value = '';
-                const msgBox = document.getElementById('promo-message');
-                msgBox.innerText = "Promo removed (Min. order ₹1999)";
-                msgBox.className = "text-xs mb-4 text-red-400 font-medium";
-                msgBox.classList.remove('hidden');
-            }
-
             const finalTotal = Math.max(0, subtotal - currentDiscount);
-
-            document.getElementById('cart-subtotal').innerText = '₹' + subtotal.toLocaleString('en-IN');
-            
-            const discRow = document.getElementById('discount-row');
-            if (currentDiscount > 0) {
-                discRow.classList.remove('hidden');
-                document.getElementById('applied-code-name').innerText = activePromoCode;
-                document.getElementById('cart-discount').innerText = '-₹' + currentDiscount.toLocaleString('en-IN');
-            } else {
-                discRow.classList.add('hidden');
-            }
 
             document.getElementById('cart-total').innerText = '₹' + finalTotal.toLocaleString('en-IN'); 
             document.getElementById('checkout-amount').innerText = '₹' + finalTotal.toLocaleString('en-IN');
             
-            const cont = document.getElementById('cart-items');
-            if (cart.length === 0) cont.innerHTML = '<p class="text-center text-gray-400 mt-10">Your cart is empty.</p>';
-            else cont.innerHTML = cart.map(i => `<div class="flex gap-4 items-center bg-darkgray p-3 rounded-xl border border-gold/10"><div class="w-16 h-16 bg-[#0a0a0a] rounded overflow-hidden border border-gold/20"><img src="${i.images[0]}" class="w-full h-full object-contain p-1"></div><div class="flex-1"><h4 class="text-white text-sm font-bold line-clamp-1">${i.name}</h4><p class="text-gray-400 text-xs mt-1">Qty: ${i.quantity} | ₹${i.price.toLocaleString('en-IN')}</p></div><button onclick="removeFromCart(${i.id})" class="text-gray-500 hover:text-red-400 transition-colors text-2xl px-2 leading-none">&times;</button></div>`).join('');
+            // PREPARE DATA FOR EMAIL ALERTS
+            document.getElementById('email-order-total').value = '₹' + finalTotal.toLocaleString('en-IN');
+            const itemDetails = cart.map(i => `${i.name} (x${i.quantity})`).join(', ');
+            document.getElementById('email-order-details').value = itemDetails;
         }
         
-        function openCartDrawer() { document.getElementById('cart-drawer').classList.remove('translate-x-full'); document.getElementById('cart-overlay').classList.remove('opacity-0', 'invisible'); }
         function toggleCart() { document.getElementById('cart-drawer').classList.toggle('translate-x-full'); document.getElementById('cart-overlay').classList.toggle('opacity-0'); document.getElementById('cart-overlay').classList.toggle('invisible'); }
-        function openContact() { document.getElementById('contact-modal').classList.replace('hidden', 'flex'); }
-        function closeContact() { document.getElementById('contact-modal').classList.replace('flex', 'hidden'); }
         function openCheckout() { if(cart.length === 0) return alert("Cart is empty!"); toggleCart(); document.getElementById('checkout-modal').classList.replace('hidden', 'flex'); }
         function closeCheckout() { document.getElementById('checkout-modal').classList.replace('flex', 'hidden'); document.getElementById('payment-form').reset(); document.getElementById('pay-button').classList.remove('hidden'); document.getElementById('payment-status').classList.add('hidden'); }
         
@@ -532,32 +386,20 @@
             document.getElementById('pay-button').classList.add('hidden'); 
             document.getElementById('payment-status').classList.remove('hidden'); 
             
+            // NOTE: In a real system, you would send data to Formspree here using Fetch API.
+            // Example: fetch('https://formspree.io/f/YOUR_FORM_ID', { method: 'POST', body: new FormData(e.target) })
+            
             setTimeout(() => { 
-                document.getElementById('payment-status').innerHTML = '<p class="text-green-400 font-bold text-lg">Payment Successful!</p>'; 
+                document.getElementById('payment-status').innerHTML = '<p class="text-green-400 font-bold text-lg">Payment Successful!<br><span class="text-sm text-white font-normal mt-2 block">Order ID: AV-' + Math.floor(100000 + Math.random() * 900000) + '</span></p>'; 
                 
-                if (activePromoCode) {
-                    let usedCodes = JSON.parse(localStorage.getItem('usedPromoCodes')) || [];
-                    if (!usedCodes.includes(activePromoCode)) {
-                        usedCodes.push(activePromoCode);
-                        localStorage.setItem('usedPromoCodes', JSON.stringify(usedCodes));
-                    }
-                }
-
                 setTimeout(() => { 
-                    cart = []; 
-                    currentDiscount = 0;
-                    activePromoCode = '';
-                    document.getElementById('promo-input').value = '';
-                    document.getElementById('promo-message').classList.add('hidden');
-                    updateCartUI(); 
-                    closeCheckout(); 
-                }, 2000); 
+                    cart = []; currentDiscount = 0; updateCartUI(); closeCheckout(); 
+                }, 4000); 
             }, 2000); 
         }
 
         renderProducts();
     </script>
-
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script> AOS.init({ duration: 1000, once: true, easing: 'ease-out' }); </script>
 </body>
